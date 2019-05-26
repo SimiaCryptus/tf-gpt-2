@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 public class TextGenerator {
@@ -37,11 +39,36 @@ public class TextGenerator {
   protected final GPT2Codec codec;
   protected boolean verbose = false;
   protected int choicesToLog = 10;
+  List<Integer> codes = new ArrayList<>();
+  float[] nextSelections;
+
+  public TextGenerator copy() {
+    TextGenerator copy = new TextGenerator(vocabularySize, model.copy(), codec);
+    copy.codes.addAll(this.codes);
+    copy.verbose = this.verbose;
+    copy.choicesToLog = this.choicesToLog;
+    copy.nextSelections = this.nextSelections;
+    return copy;
+  }
 
   TextGenerator(int vocabularySize, GPT2Model model, GPT2Codec codec) {
     this.model = model;
     this.vocabularySize = vocabularySize;
     this.codec = codec;
+  }
+
+  public static int[] sortedIndices(float[] chosen, int limit) {
+    return IntStream.range(0, chosen.length)
+        .mapToObj(x -> x)
+        .sorted(Comparator.comparing(c -> -chosen[c]))
+        .limit(limit)
+        .mapToInt(x -> x)
+        .toArray();
+  }
+
+  @NotNull
+  public String generateText(Predicate<String> terminator) {
+    return generateText(terminator, null);
   }
 
   @NotNull
@@ -50,21 +77,45 @@ public class TextGenerator {
   }
 
   @NotNull
-  public String generateText(int numberOfWords, String text) {
-    List<Integer> primingTokens = new ArrayList<>();
-    GPT2Model model = getModel().resetState();
-    float[] nextSelections = null;
-    List<Integer> codes = new ArrayList<>();
-    primingTokens.addAll(codec.encode(text));
-    if (primingTokens.isEmpty()) primingTokens.add(getVocabularySize() - 1);
-    for (Integer code : primingTokens) {
-      codes.add(code);
-      nextSelections = model.eval(code);
-      if (isVerbose()) {
-        logger.info(String.format("Feed token: '%s'", codec.decode(code)));
-        log(nextSelections, codec, getChoicesToLog());
+  public String generateText(Predicate<String> terminator, String prefix) {
+    reset();
+    feed(prefix);
+    generate(terminator);
+    return getText();
+  }
+
+  @NotNull
+  public String generateText(int numberOfTokens, String prefix) {
+    reset();
+    feed(prefix);
+    generate(numberOfTokens);
+    return getText();
+  }
+
+  public String getText() {
+    return codec.decode(codes.toArray(new Integer[]{}));
+  }
+
+  public void generate(Predicate<String> fn) {
+    init();
+    try {
+      for (int wordIndex = 0; fn.test(codec.decode(codes.toArray(new Integer[]{}))); wordIndex++) {
+        int selected = select(nextSelections);
+        if (isVerbose()) {
+          if (wordIndex != 0) log(nextSelections, codec, getChoicesToLog());
+          logger.info(String.format("Selected New Text: '%s'", codec.decode(selected)));
+        }
+        if (selected == getVocabularySize() - 1) break;
+        codes.add(selected);
+        nextSelections = model.eval(selected);
       }
+    } catch (Throwable e) {
+      logger.warn("Error generating text", e);
     }
+  }
+
+  public void generate(int numberOfWords) {
+    init();
     try {
       for (int wordIndex = 0; wordIndex < numberOfWords; wordIndex++) {
         int selected = select(nextSelections);
@@ -79,7 +130,37 @@ public class TextGenerator {
     } catch (Throwable e) {
       logger.warn("Error generating text", e);
     }
-    return codec.decode(codes.toArray(new Integer[]{}));
+  }
+
+  public TextGenerator init() {
+    if (nextSelections == null) feed("");
+    return this;
+  }
+
+  public double feed(String text) {
+    double entropy = 0.0;
+    List<Integer> codeList = new ArrayList<>();
+    codeList.addAll(codec.encode(text));
+    if (codeList.isEmpty()) codeList.add(getVocabularySize() - 1);
+    for (Integer code : codeList) {
+      if(null != nextSelections) {
+        float p = nextSelections[code];
+        entropy += Math.log(p);
+      }
+      codes.add(code);
+      nextSelections = model.eval(code);
+      if (isVerbose()) {
+        logger.info(String.format("Feed token: '%s'", codec.decode(code)));
+        log(nextSelections, codec, getChoicesToLog());
+      }
+    }
+    return entropy;
+  }
+
+  public TextGenerator reset() {
+    codes.clear();
+    getModel().resetState();
+    return this;
   }
 
   protected int select(float[] chosen) {
@@ -92,22 +173,13 @@ public class TextGenerator {
       fate -= chosen[topCandidate];
     }
     int topCandidate = topCandidates[j];
-    //logger.info(String.format("Chose #%s with blacklist %s and fate %s", topCandidate, Arrays.toString(blacklist), originalFate));
+    logger.debug(String.format("Chose #%s with fate %s", topCandidate, originalFate));
     return topCandidate;
   }
 
   protected void log(float[] chosen, GPT2Codec codec, int count) {
     Arrays.stream(sortedIndices(chosen, count))
         .forEach(candidate -> logger.info(String.format("\t#%d %.4f%% '%s'", candidate, chosen[candidate] * 100, codec.decode(candidate))));
-  }
-
-  public static int[] sortedIndices(float[] chosen, int limit) {
-    return IntStream.range(0, chosen.length)
-        .mapToObj(x -> x)
-        .sorted(Comparator.comparing(c -> -chosen[c]))
-        .limit(limit)
-        .mapToInt(x -> x)
-        .toArray();
   }
 
   public boolean isVerbose() {

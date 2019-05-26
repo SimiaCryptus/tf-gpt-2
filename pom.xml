@@ -33,7 +33,7 @@
     <url>https://simiacryptus.github.io/${github.project}/</url>
 
     <properties>
-        <github.project>mindseye-text</github.project>
+        <github.project>tf-gpt-2</github.project>
     </properties>
     <distributionManagement>
         <site>
@@ -53,14 +53,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <dependency>
-            <groupId>com.twitter</groupId>
-            <artifactId>chill-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.esotericsoftware</groupId>
-            <artifactId>kryo</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.simiacryptus</groupId>
             <artifactId>java-util</artifactId>

@@ -32,23 +32,28 @@ public class GPT2Util {
 
   @NotNull
   public static TextGenerator get345M() {
-    return new TextGenerator(50257, get345M(get345M_Graph()), new GPT2Codec(get345M_Encoder()));
+    return new TextGenerator(50257, getModel_345M(getGraphFile_345M()), getCodec_345M());
   }
 
   @NotNull
-  public static File get345M_Encoder() {
+  protected static GPT2Codec getCodec_345M() {
+    return new GPT2Codec(getEncoderFile_345M());
+  }
+
+  @NotNull
+  public static File getEncoderFile_345M() {
     return loadZippedInternetFile("https://s3-us-west-2.amazonaws.com/simiacryptus/gpt2/encoder_345M.zip", "encoder_345M.json");
   }
 
   @NotNull
-  public static File get345M_Graph() {
+  public static File getGraphFile_345M() {
     return loadRawInternetFile("https://s3-us-west-2.amazonaws.com/simiacryptus/gpt2/", "345M.pb");
   }
 
   public @NotNull
   static File loadZippedInternetFile(String zipUrl, String pathname) {
     File encoderFile = new File(pathname);
-    if(new File(encoderFile.getName()).exists()) {
+    if (new File(encoderFile.getName()).exists()) {
       encoderFile = new File(encoderFile.getName());
     } else {
       try {
@@ -68,7 +73,7 @@ public class GPT2Util {
   public @NotNull
   static File loadRawInternetFile(String urlBase, String fileName) {
     File graphFile = new File(fileName);
-    if(new File(graphFile.getName()).exists()) {
+    if (new File(graphFile.getName()).exists()) {
       graphFile = new File(graphFile.getName());
     } else {
       try {
@@ -81,12 +86,12 @@ public class GPT2Util {
   }
 
   @NotNull
-  public static GPT2Model get345M(File file) {
-    return get345M("345M", file);
+  public static GPT2Model getModel_345M(File file) {
+    return getModel_345M("345M", file);
   }
 
   @NotNull
-  public static GPT2Model get345M(String name, File file) {
-    return new GPT2Model(name, new GPT2Edit_345M(), file);
+  public static GPT2Model getModel_345M(String name, File file) {
+    return new GPT2Model(name, new GPT2Edit_345M(), file, getCodec_345M());
   }
 }
