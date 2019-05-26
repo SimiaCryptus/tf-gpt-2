@@ -21,7 +21,6 @@ package com.simiacryptus.text.gpt2;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import org.apache.commons.io.FileUtils;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tensorflow.Graph;
@@ -35,6 +34,7 @@ import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 
@@ -43,21 +43,75 @@ public class GPT2Model {
 
   public final String name;
   protected final byte[] graphDef;
-  protected int history_size = 0;
   protected final ArrayList<Integer> code_history = new ArrayList<>();
+  protected final GraphModifier graphModifier;
+  protected int history_size = 0;
   protected int topN = 50;
   protected Tensor<Float> tensor_state = null;
   protected double temperature = 1.0;
-  protected final GraphModifier graphModifier;
+  protected TFContext context = null;
+  protected final GPT2Codec codec;
+  private BiFunction<String,String,Boolean> filterFn = (a, b)->true;
 
-  public GPT2Model(String name, GraphModifier graphModifier, File file) {
-    this(name, loadModel(file), graphModifier);
+  public GPT2Model(String name, GraphModifier graphModifier, File file, GPT2Codec codec) {
+    this(name, loadModel(file), graphModifier, codec);
   }
 
-  public GPT2Model(String name, byte[] graphDef, GraphModifier graphModifier) {
+  public GPT2Model(String name, byte[] graphDef, GraphModifier graphModifier, GPT2Codec codec) {
     this.name = name;
     this.graphDef = graphDef;
     this.graphModifier = graphModifier;
+    this.codec = codec;
+  }
+
+  public static byte[] loadModel(File file) {
+    try {
+      return FileUtils.readFileToByteArray(file);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public float[] logitsToProbabilities(float[] logits, int topN) {
+
+    String prefix = codec.decode(code_history.stream().toArray(i -> new Integer[i]));
+    int[] sortedIndices = Arrays.stream(TextGenerator.sortedIndices(logits, Integer.MAX_VALUE))
+        .filter(item->{
+          if(item==logits.length-1) return true;
+          String thisStr = codec.decode(item);
+          return getFilterFn().apply(prefix, thisStr);
+        }).limit(topN).toArray();
+    double[] input = IntStream.range(0, Math.min(topN, logits.length)).mapToDouble(c -> logits[sortedIndices[c]]).toArray();
+    assert 1 < input.length : "input.length() = " + input.length;
+
+    @Nullable final double[] exp;
+    final DoubleSummaryStatistics summaryStatistics = DoubleStream.of(input).filter(x -> Double.isFinite(x)).summaryStatistics();
+    final double max = summaryStatistics.getMax();
+    exp = Arrays.stream(input).map(x -> {
+      double xx = Math.exp(x - max);
+      return Double.isFinite(xx) ? xx : 0;
+    }).toArray();
+    final double sum = 0 < Arrays.stream(exp).sum() ? Arrays.stream(exp).sum() : 1;
+    assert Double.isFinite(sum);
+    @Nullable double[] chosen = Arrays.stream(exp).map(x -> x / sum).toArray();
+
+    for (int i = 0; i < logits.length; i++) logits[i] = 0;
+    IntStream.range(0, chosen.length).forEach(c -> {
+      logits[sortedIndices[c]] = (float) chosen[c];
+
+    });
+    return logits;
+  }
+
+  public GPT2Model copy() {
+    GPT2Model copy = new GPT2Model(name, graphDef, graphModifier, new GPT2Codec(GPT2Util.getEncoderFile_345M()));
+    copy.tensor_state = this.tensor_state;
+    copy.history_size = this.history_size;
+    copy.topN = this.topN;
+    copy.temperature = this.temperature;
+    copy.context = this.context;
+    copy.code_history.addAll(this.code_history);
+    return copy;
   }
 
   public Tensor<Float> accumulateState(GPT2Model.TFContext context, Tensor<Float> outputState) {
@@ -80,15 +134,6 @@ public class GPT2Model {
     code_history.clear();
     return this;
   }
-
-  public static byte[] loadModel(File file) {
-    try {
-      return FileUtils.readFileToByteArray(file);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
 
   public synchronized float[] eval(int data_X) {
     logger.debug(String.format("Eval %d", data_X));
@@ -132,32 +177,7 @@ public class GPT2Model {
     for (int i = 0; i < logits.length; i++) logits[i] *= 1.0 / getTemperature();
     if (null != prevState) prevState.close();
     input_X.close();
-    return asProbabilities(logits, getTopN());
-  }
-
-  public static float[] asProbabilities(float[] logits, int topN) {
-    int[] sortedIndices = TextGenerator.sortedIndices(logits, topN);
-
-    double[] input = IntStream.range(0, Math.min(topN, logits.length)).mapToDouble(c -> logits[sortedIndices[c]]).toArray();
-    assert 1 < input.length : "input.length() = " + input.length;
-
-    @Nullable final double[] exp;
-    final DoubleSummaryStatistics summaryStatistics = DoubleStream.of(input).filter(x -> Double.isFinite(x)).summaryStatistics();
-    final double max = summaryStatistics.getMax();
-    exp = Arrays.stream(input).map(x -> {
-      double xx = Math.exp(x - max);
-      return Double.isFinite(xx) ? xx : 0;
-    }).toArray();
-    final double sum = 0 < Arrays.stream(exp).sum() ? Arrays.stream(exp).sum() : 1;
-    assert Double.isFinite(sum);
-    @Nullable double[] chosen = Arrays.stream(exp).map(x -> x / sum).toArray();
-
-    for (int i = 0; i < logits.length; i++) logits[i] = 0;
-    IntStream.range(0,chosen.length).forEach(c->{
-      logits[sortedIndices[c]] = (float) chosen[c];
-
-    });
-    return logits;
+    return logitsToProbabilities(logits, getTopN());
   }
 
   public double getTemperature() {
@@ -175,6 +195,36 @@ public class GPT2Model {
 
   public GPT2Model setTopN(int topN) {
     this.topN = topN;
+    return this;
+  }
+
+  public SessionAspect getSession() throws InvalidProtocolBufferException {
+    String prefix;
+    if (null == context) {
+      context = new TFContext();
+    }
+    if (!context.loadedSubnets.contains("")) {
+      context.loadedSubnets.add("");
+      context.graph.importGraphDef(this.graphDef);
+    }
+    if (null == this.tensor_state) {
+      prefix = "init/";
+      if (!context.loadedSubnets.contains(prefix)) {
+        GraphModifier.importGraphDef(context.graph, this.graphModifier.edit(GraphDef.parseFrom(this.graphDef), prefix, false));
+        context.loadedSubnets.add(prefix);
+      }
+    } else {
+      prefix = "";
+    }
+    return new SessionAspect(context, prefix);
+  }
+
+  public BiFunction<String, String, Boolean> getFilterFn() {
+    return filterFn;
+  }
+
+  public GPT2Model setFilterFn(BiFunction<String, String, Boolean> filterFn) {
+    this.filterFn = filterFn;
     return this;
   }
 
@@ -199,28 +249,5 @@ public class GPT2Model {
       this.prefix = prefix;
     }
 
-  }
-
-  protected TFContext TFContext = null;
-
-  public SessionAspect getSession() throws InvalidProtocolBufferException {
-    String prefix;
-    if (null == TFContext) {
-      TFContext = new TFContext();
-    }
-    if (!TFContext.loadedSubnets.contains("")) {
-      TFContext.loadedSubnets.add("");
-      TFContext.graph.importGraphDef(this.graphDef);
-    }
-    if (null == this.tensor_state) {
-      prefix = "init/";
-      if (!TFContext.loadedSubnets.contains(prefix)) {
-        GraphModifier.importGraphDef(TFContext.graph, this.graphModifier.edit(GraphDef.parseFrom(this.graphDef), prefix, false));
-        TFContext.loadedSubnets.add(prefix);
-      }
-    } else {
-      prefix = "";
-    }
-    return new SessionAspect(TFContext, prefix);
   }
 }

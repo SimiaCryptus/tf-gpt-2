@@ -38,7 +38,7 @@ public class UserTests {
     try {
       String id = UUID.randomUUID().toString();
       File location = new File("target/" + now + "/tensorboard/" + id);
-      File graphFile = GPT2Util.get345M_Graph();
+      File graphFile = GPT2Util.getGraphFile_345M();
       TestUtil.launchTensorboard(TestUtil.writeGraph(GraphDef.parseFrom(GPT2Model.loadModel(graphFile)), location, id));
     } catch (IOException e) {
       throw new RuntimeException(e);
