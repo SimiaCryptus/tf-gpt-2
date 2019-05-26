@@ -6,11 +6,11 @@ Basic Usage
 Import the Library
 
 ```xml
-&lt;dependency&gt;
-    &lt;groupId&gt;com.simiacryptus&lt;/groupId&gt;
-    &lt;artifactId&gt;tf-gpt-2&lt;/artifactId&gt;
-    &lt;version&gt;1.7.1&lt;/version&gt;
-&lt;/dependency&gt;
+<dependency>
+    <groupId>com.simiacryptus</groupId>
+    <artifactId>tf-gpt-2</artifactId>
+    <version>1.7.1</version>
+</dependency>
 ```
 
 Instantiate the text generator
