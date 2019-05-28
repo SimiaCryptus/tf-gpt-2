@@ -51,7 +51,7 @@ public class UserTests {
   public void generateUnconditionalText() {
     TextGenerator textGenerator = GPT2Util.get345M().setVerbose(false);
     for (double t = 1.0; t < 100; t *= 1.01) {
-      textGenerator.getModel().setTemperature(t);
+      textGenerator.getModel();
       System.out.println("Temperature=" + t);
       System.out.println(textGenerator.generateText(50));
     }
@@ -61,7 +61,7 @@ public class UserTests {
   public void generateConditionalText() {
     TextGenerator textGenerator = GPT2Util.get345M().setVerbose(false);
     for (double t = 1.0; t < 100; t *= 1.01) {
-      textGenerator.getModel().setTemperature(t);
+      textGenerator.getModel();
       System.out.println("Temperature=" + t);
       for (String seed : Arrays.asList(
           "Hello World",
@@ -76,7 +76,6 @@ public class UserTests {
       }
     }
   }
-
 
 
 }

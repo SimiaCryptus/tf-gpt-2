@@ -38,6 +38,65 @@ class GraphComparer implements Consumer<GraphModel.DeltaRecord> {
   public final ArrayList<String> newNodes = new ArrayList<String>();
   public final Map<String, ArrayList<String>> nodeEdits = new HashMap<>();
 
+  public static String toString(AttrValue value) {
+    switch (value.getValueCase()) {
+      case I:
+        return String.format("AttrValue.newBuilder().setI(%s).build()", value.getI());
+      case F:
+        return String.format("AttrValue.newBuilder().setF(%s).build()", value.getF());
+      case B:
+        return String.format("AttrValue.newBuilder().setB(%s).build()", value.getB());
+      case S:
+        return String.format("AttrValue.newBuilder().setS(%s).build()", value.getS().toStringUtf8());
+      case TYPE:
+        return String.format("AttrValue.newBuilder().setType(DataType.forNumber(%s)).build()", value.getType().getNumber());
+      case SHAPE: {
+        return String.format("AttrValue.newBuilder().setShape(shape(%s)).build()", toString(dims(value.getShape())));
+      }
+      case TENSOR: {
+        TensorProto tensor = value.getTensor();
+        TensorShapeProto shape = tensor.getTensorShape();
+        switch (tensor.getDtype()) {
+          case DT_INT32: {
+            String shapeElements = shape.getDimList().stream().map(x -> Long.toString(x.getSize())).reduce((a, b) -> a + ", " + b).orElse("");
+            return tensor.getIntValList().stream().map(x -> Integer.toString(x)).reduce((a, b) -> a + ", " + b).map(elements -> {
+              return String.format("AttrValue.newBuilder().setTensor(tensor1(new int[]{ %s }, new int[] { %s })).build()", shapeElements, elements);
+            }).orElseGet(() -> {
+              IntBuffer intBuffer = tensor.getTensorContent().asReadOnlyByteBuffer().asIntBuffer();
+              int[] dst = new int[intBuffer.remaining()];
+              intBuffer.get(dst);
+              String elements = Arrays.stream(dst).map(Integer::reverseBytes).mapToObj(Integer::toString).reduce((a, b) -> a + ", " + b).orElse("");
+              return String.format("AttrValue.newBuilder().setTensor(tensor2(new int[]{ %s }, new int[] { %s })).build()", shapeElements, elements);
+            });
+          }
+          case DT_FLOAT: {
+            String shapeElements = shape.getDimList().stream().map(x -> Long.toString(x.getSize())).reduce((a, b) -> a + ", " + b).orElse("");
+            return tensor.getFloatValList().stream().map(x -> Float.toString(x)).reduce((a, b) -> a + ", " + b).map(elements -> {
+              return String.format("AttrValue.newBuilder().setTensor(tensor1(new int[]{ %s }, new int[] { %s })).build()", shapeElements, elements);
+            }).orElseGet(() -> {
+              FloatBuffer intBuffer = tensor.getTensorContent().asReadOnlyByteBuffer().asFloatBuffer();
+              float[] dst = new float[intBuffer.remaining()];
+              intBuffer.get(dst);
+              String elements = IntStream.range(0, dst.length).mapToDouble(i -> dst[i]).mapToObj(Double::toString).reduce((a, b) -> a + ", " + b).orElse("");
+              return String.format("AttrValue.newBuilder().setTensor(tensor2(new int[]{ %s }, new float[]{ %s })).build()", shapeElements, elements);
+            });
+          }
+        }
+      }
+      default:
+        return "/* " + value.getType() + " - " + value.toString().trim() + " */";
+    }
+  }
+
+  @NotNull
+  public static String toString(long[] dims) {
+    return Arrays.stream(dims).mapToObj(size -> Long.toString(size)).reduce((a, b) -> a + ", " + b).orElse("");
+  }
+
+  public static long[] dims(TensorShapeProto shape) {
+    return shape.getDimList().stream().mapToLong(TensorShapeProto.Dim::getSize).toArray();
+  }
+
   public void compare(GraphModel left, GraphModel right) {
     left.compare(right).values().stream().forEach(this);
     System.out.println("\n" +
@@ -123,65 +182,6 @@ class GraphComparer implements Consumer<GraphModel.DeltaRecord> {
     return nodeEdits.computeIfAbsent(name, k -> new ArrayList<String>());
   }
 
-  public static String toString(AttrValue value) {
-    switch (value.getValueCase()) {
-      case I:
-        return String.format("AttrValue.newBuilder().setI(%s).build()", value.getI());
-      case F:
-        return String.format("AttrValue.newBuilder().setF(%s).build()", value.getF());
-      case B:
-        return String.format("AttrValue.newBuilder().setB(%s).build()", value.getB());
-      case S:
-        return String.format("AttrValue.newBuilder().setS(%s).build()", value.getS().toStringUtf8());
-      case TYPE:
-        return String.format("AttrValue.newBuilder().setType(DataType.forNumber(%s)).build()", value.getType().getNumber());
-      case SHAPE: {
-        return String.format("AttrValue.newBuilder().setShape(shape(%s)).build()", toString(dims(value.getShape())));
-      }
-      case TENSOR: {
-        TensorProto tensor = value.getTensor();
-        TensorShapeProto shape = tensor.getTensorShape();
-        switch (tensor.getDtype()) {
-          case DT_INT32: {
-            String shapeElements = shape.getDimList().stream().map(x -> Long.toString(x.getSize())).reduce((a, b) -> a + ", " + b).orElse("");
-            return tensor.getIntValList().stream().map(x -> Integer.toString(x)).reduce((a, b) -> a + ", " + b).map(elements -> {
-              return String.format("AttrValue.newBuilder().setTensor(tensor1(new int[]{ %s }, new int[] { %s })).build()", shapeElements, elements);
-            }).orElseGet(() -> {
-              IntBuffer intBuffer = tensor.getTensorContent().asReadOnlyByteBuffer().asIntBuffer();
-              int[] dst = new int[intBuffer.remaining()];
-              intBuffer.get(dst);
-              String elements = Arrays.stream(dst).map(Integer::reverseBytes).mapToObj(Integer::toString).reduce((a, b) -> a + ", " + b).orElse("");
-              return String.format("AttrValue.newBuilder().setTensor(tensor2(new int[]{ %s }, new int[] { %s })).build()", shapeElements, elements);
-            });
-          }
-          case DT_FLOAT: {
-            String shapeElements = shape.getDimList().stream().map(x -> Long.toString(x.getSize())).reduce((a, b) -> a + ", " + b).orElse("");
-            return tensor.getFloatValList().stream().map(x -> Float.toString(x)).reduce((a, b) -> a + ", " + b).map(elements -> {
-              return String.format("AttrValue.newBuilder().setTensor(tensor1(new int[]{ %s }, new int[] { %s })).build()", shapeElements, elements);
-            }).orElseGet(() -> {
-              FloatBuffer intBuffer = tensor.getTensorContent().asReadOnlyByteBuffer().asFloatBuffer();
-              float[] dst = new float[intBuffer.remaining()];
-              intBuffer.get(dst);
-              String elements = IntStream.range(0, dst.length).mapToDouble(i -> dst[i]).mapToObj(Double::toString).reduce((a, b) -> a + ", " + b).orElse("");
-              return String.format("AttrValue.newBuilder().setTensor(tensor2(new int[]{ %s }, new float[]{ %s })).build()", shapeElements, elements);
-            });
-          }
-        }
-      }
-      default:
-        return "/* " + value.getType() + " - " + value.toString().trim() + " */";
-    }
-  }
-
-  @NotNull
-  public static String toString(long[] dims) {
-    return Arrays.stream(dims).mapToObj(size -> Long.toString(size)).reduce((a, b) -> a + ", " + b).orElse("");
-  }
-
-  public static long[] dims(TensorShapeProto shape) {
-    return shape.getDimList().stream().mapToLong(TensorShapeProto.Dim::getSize).toArray();
-  }
-
   public void compareInputs(GraphModel.DeltaRecord delta, List<String> leftData, List<String> rightData) {
     if (leftData == null || leftData.size() == 0) {
       getBuffer(delta.name).add(rightData.stream().map(input ->
@@ -203,7 +203,7 @@ class GraphComparer implements Consumer<GraphModel.DeltaRecord> {
         getBuffer(delta.name).add(String.format("node.setInput(%s, \"%s\");", mismatchedIndices[0], rightData.get(mismatchedIndices[0])));
       } else if (0 < mismatchedIndices.length) {
         getBuffer(delta.name).add(String.format("node.clearInput();node.addAllInput(Arrays.asList(%s));",
-            rightData.stream().map(x->'"'+x+'"').reduce((a, b) -> a + "," + b).orElseGet(() -> "")));
+            rightData.stream().map(x -> '"' + x + '"').reduce((a, b) -> a + "," + b).orElseGet(() -> "")));
       }
     }
   }

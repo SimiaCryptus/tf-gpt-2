@@ -27,32 +27,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 public class TextGenerator {
   protected static final Logger logger = LoggerFactory.getLogger(TextGenerator.class);
-
-  protected final GPT2Model model;
   protected final int vocabularySize;
   protected final GPT2Codec codec;
   protected boolean verbose = false;
   protected int choicesToLog = 10;
   List<Integer> codes = new ArrayList<>();
   float[] nextSelections;
+  private LanguageCodeModel model;
 
-  public TextGenerator copy() {
-    TextGenerator copy = new TextGenerator(vocabularySize, model.copy(), codec);
-    copy.codes.addAll(this.codes);
-    copy.verbose = this.verbose;
-    copy.choicesToLog = this.choicesToLog;
-    copy.nextSelections = this.nextSelections;
-    return copy;
-  }
-
-  TextGenerator(int vocabularySize, GPT2Model model, GPT2Codec codec) {
-    this.model = model;
+  TextGenerator(int vocabularySize, LanguageCodeModel model, GPT2Codec codec) {
+    this.setModel(model);
     this.vocabularySize = vocabularySize;
     this.codec = codec;
   }
@@ -64,6 +53,15 @@ public class TextGenerator {
         .limit(limit)
         .mapToInt(x -> x)
         .toArray();
+  }
+
+  public TextGenerator copy() {
+    TextGenerator copy = new TextGenerator(vocabularySize, getModel().copy(), codec);
+    copy.codes.addAll(this.codes);
+    copy.verbose = this.verbose;
+    copy.choicesToLog = this.choicesToLog;
+    copy.nextSelections = null == this.nextSelections ? null : Arrays.copyOf(this.nextSelections, this.nextSelections.length);
+    return copy;
   }
 
   @NotNull
@@ -96,10 +94,11 @@ public class TextGenerator {
     return codec.decode(codes.toArray(new Integer[]{}));
   }
 
-  public void generate(Predicate<String> fn) {
+  public String generate(Predicate<String> fn) {
     init();
+    ArrayList<Integer> theseCodes = new ArrayList<>();
     try {
-      for (int wordIndex = 0; fn.test(codec.decode(codes.toArray(new Integer[]{}))); wordIndex++) {
+      for (int wordIndex = 0; wordIndex == 0 || fn.test(codec.decode(theseCodes.toArray(new Integer[]{}))); wordIndex++) {
         int selected = select(nextSelections);
         if (isVerbose()) {
           if (wordIndex != 0) log(nextSelections, codec, getChoicesToLog());
@@ -107,11 +106,14 @@ public class TextGenerator {
         }
         if (selected == getVocabularySize() - 1) break;
         codes.add(selected);
-        nextSelections = model.eval(selected);
+        theseCodes.add(selected);
+        nextSelections = getModel().eval(selected);
       }
     } catch (Throwable e) {
-      logger.warn("Error generating text", e);
+      //logger.warn("Error generating text", e);
+      throw new RuntimeException("Error generating text: " + codec.decode(theseCodes.toArray(new Integer[]{})), e);
     }
+    return codec.decode(theseCodes.toArray(new Integer[]{}));
   }
 
   public void generate(int numberOfWords) {
@@ -125,7 +127,7 @@ public class TextGenerator {
         }
         if (selected == getVocabularySize() - 1) break;
         codes.add(selected);
-        nextSelections = model.eval(selected);
+        nextSelections = getModel().eval(selected);
       }
     } catch (Throwable e) {
       logger.warn("Error generating text", e);
@@ -143,18 +145,18 @@ public class TextGenerator {
     codeList.addAll(codec.encode(text));
     if (codeList.isEmpty()) codeList.add(getVocabularySize() - 1);
     for (Integer code : codeList) {
-      if(null != nextSelections) {
+      if (null != nextSelections) {
         float p = nextSelections[code];
-        entropy += Math.log(p);
+        entropy += (p != 0) ? -Math.log(p) : Math.log(getVocabularySize());
       }
       codes.add(code);
-      nextSelections = model.eval(code);
+      nextSelections = getModel().eval(code);
       if (isVerbose()) {
         logger.info(String.format("Feed token: '%s'", codec.decode(code)));
         log(nextSelections, codec, getChoicesToLog());
       }
     }
-    return entropy;
+    return entropy / Math.log(2);
   }
 
   public TextGenerator reset() {
@@ -167,7 +169,7 @@ public class TextGenerator {
     double originalFate = Math.random() * (1);
     double fate = originalFate;
     int j = 0;
-    int[] topCandidates = sortedIndices(chosen, model.getTopN());
+    int[] topCandidates = sortedIndices(chosen, chosen.length);
     while (j < topCandidates.length && (fate > chosen[topCandidates[j]])) {
       int topCandidate = topCandidates[j++];
       fate -= chosen[topCandidate];
@@ -191,8 +193,13 @@ public class TextGenerator {
     return this;
   }
 
-  public GPT2Model getModel() {
+  public LanguageCodeModel getModel() {
     return model;
+  }
+
+  public TextGenerator setModel(LanguageCodeModel model) {
+    this.model = model;
+    return this;
   }
 
   public int getVocabularySize() {
