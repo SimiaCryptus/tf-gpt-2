@@ -87,7 +87,7 @@ public class DevTests {
 
   @Test
   public void encode() {
-    GPT2Codec encoder = new GPT2Codec(new File(modelHome(), "345M" + "\\encoder.json"));
+    GPT2Codec encoder = new GPT2Codec(new File(modelHome(), "345M" + "\\encoder.json"), 50257);
     for (String text : Arrays.asList(
         "This is a test",
         "<|endoftext|>"

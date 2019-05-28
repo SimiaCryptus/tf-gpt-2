@@ -25,10 +25,24 @@ import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.zip.ZipFile;
 
 public class GPT2Util {
+
+  private static final String MODEL_URL_BASE = System.getProperty(
+      "GPT2_MODEL_URL",
+      "https://s3-us-west-2.amazonaws.com/simiacryptus/gpt2/");
+  private static final TextGenerator prototype = get345M().setVerbose(false);
 
   @NotNull
   public static TextGenerator get345M() {
@@ -37,17 +51,17 @@ public class GPT2Util {
 
   @NotNull
   protected static GPT2Codec getCodec_345M() {
-    return new GPT2Codec(getEncoderFile_345M());
+    return new GPT2Codec(getEncoderFile_345M(), 50257);
   }
 
   @NotNull
   public static File getEncoderFile_345M() {
-    return loadZippedInternetFile("https://s3-us-west-2.amazonaws.com/simiacryptus/gpt2/encoder_345M.zip", "encoder_345M.json");
+    return loadZippedInternetFile(MODEL_URL_BASE + "encoder_345M.zip", "encoder_345M.json");
   }
 
   @NotNull
   public static File getGraphFile_345M() {
-    return loadRawInternetFile("https://s3-us-west-2.amazonaws.com/simiacryptus/gpt2/", "345M.pb");
+    return loadRawInternetFile(MODEL_URL_BASE, "345M.pb");
   }
 
   public @NotNull
@@ -93,5 +107,68 @@ public class GPT2Util {
   @NotNull
   public static GPT2Model getModel_345M(String name, File file) {
     return new GPT2Model(name, new GPT2Edit_345M(), file, getCodec_345M());
+  }
+
+  @NotNull
+  protected static TextGenerator getTextGenerator(String characterWhitelist, URI wordlist) throws IOException, NoSuchAlgorithmException, KeyManagementException {
+    return getTextGenerator(getTextGenerator(), characterWhitelist, wordlist);
+  }
+
+  @NotNull
+  public static TextGenerator getTextGenerator(TextGenerator textGenerator, String characterWhitelist, URI wordlist) throws IOException, NoSuchAlgorithmException, KeyManagementException {
+    TreeSet<String> wordList = null == wordlist ? null : new TreeSet<>(
+        Arrays.stream(FileUtils.readFileToString(Util.cacheFile(wordlist), "UTF-8").split("\\s+"))
+            .map(x -> x.trim().toLowerCase()).collect(Collectors.toSet())
+    );
+    textGenerator.getModel().setFilterFn((prefix, txt) -> {
+      if (null != characterWhitelist && !characterWhitelist.isEmpty() &&
+          txt.matches(".*[^" + characterWhitelist + "].*")) return false;
+      String[] words = txt.split("[^\\w]+");
+      if (null != wordList && !wordList.isEmpty())
+        for (int i = 0; i < words.length; i++) {
+          String word = words[i].toLowerCase();
+          if (null == word) continue;
+          if (word.isEmpty()) continue;
+          if (i < words.length - 1 && !wordList.contains(word)) return false;
+          else {
+            if (wordList.contains(word)) continue;
+            String floor = wordList.floor(word);
+            if (null != floor && floor.startsWith(word)) continue;
+            String ceiling = wordList.ceiling(word);
+            if (null != ceiling && ceiling.startsWith(word)) continue;
+            return false;
+          }
+        }
+      return true;
+    });
+    return textGenerator;
+  }
+
+  public static TextGenerator getTextGenerator() {
+    return prototype.copy();
+  }
+
+  @NotNull
+  public static TextGenerator getTextGenerator(String... seeds) {
+    return getTextGenerator(get345M().setVerbose(false), seeds);
+  }
+
+  @NotNull
+  public static TextGenerator getTextGenerator(TextGenerator base, String... seeds) {
+    ArrayList<LanguageCodeModel> languageCodeModels = new ArrayList<>();
+    return getTextGenerator(base, languageCodeModels, seeds);
+  }
+
+  @NotNull
+  protected static TextGenerator getTextGenerator(TextGenerator base, List<LanguageCodeModel> languageCodeModels, String... seeds) {
+    base.setModel(new SumModel(Stream.concat(
+        Arrays.stream(seeds).map(seed -> {
+          TextGenerator copy = base.copy();
+          copy.feed(seed);
+          return copy.getModel();
+        }),
+        languageCodeModels.stream()
+    ).toArray(i -> new LanguageCodeModel[i])));
+    return base;
   }
 }

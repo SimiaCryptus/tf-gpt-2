@@ -38,14 +38,16 @@ public class GPT2Codec {
 
   protected final TreeMap<String, Integer> encoder;
   protected final TreeMap<Integer, String> decoder;
+  private final int vocabSize;
 
-  public GPT2Codec(TreeMap<String, Integer> encoder) {
+  public GPT2Codec(TreeMap<String, Integer> encoder, int vocabSize) {
     this.encoder = encoder;
+    this.vocabSize = vocabSize;
     this.decoder = buildDecoder(this.encoder);
   }
 
-  public GPT2Codec(File file) {
-    this(GPT2Codec.loadEncoder(file));
+  public GPT2Codec(File file, int vocabSize) {
+    this(GPT2Codec.loadEncoder(file), vocabSize);
   }
 
   public static TreeMap<Integer, String> buildDecoder(TreeMap<String, Integer> encoder) {
@@ -104,7 +106,7 @@ public class GPT2Codec {
   }
 
   public String decode(Integer... msg) {
-    return Arrays.stream(msg).map(i -> decoder.getOrDefault(i,"<Not Found: "+i+">")).reduce((a, b) -> a + b).orElseGet(()->"");
+    return Arrays.stream(msg).map(i -> decoder.getOrDefault(i, "<Not Found: " + i + ">")).reduce((a, b) -> a + b).orElseGet(() -> "");
   }
 
   public List<Integer> encode(String msg) {
@@ -112,15 +114,48 @@ public class GPT2Codec {
     if (null != msg && !msg.isEmpty()) {
       StringBuffer stringBuffer = new StringBuffer(msg);
       while (stringBuffer.length() > 0) {
-        String searchStr = stringBuffer.toString();
-        String key = encoder.keySet().stream()
-            .filter(x -> x.equals(searchStr.substring(0, Math.min(searchStr.length(), x.length()))))
-            .sorted(Comparator.comparing(x -> -x.length()))
-            .findFirst().get();
-        stringBuffer.delete(0, key.length());
-        list.add(encoder.get(key));
+        Optional<String> codeString = lookup(stringBuffer.toString());
+        if (codeString.isPresent()) {
+          String key = codeString.get();
+          stringBuffer.delete(0, key.length());
+          list.add(encoder.get(key));
+        } else {
+          stringBuffer.delete(0, 1);
+        }
       }
     }
     return list;
+  }
+
+  protected Optional<String> lookup(String searchStr) {
+    String ceilingKey = encoder.ceilingKey(searchStr);
+    String floorKey = encoder.floorKey(searchStr);
+    if (!searchStr.startsWith(ceilingKey)) ceilingKey = null;
+    if (!searchStr.startsWith(floorKey)) floorKey = null;
+    Optional<String> codeString;
+    if (null != ceilingKey || null != floorKey) {
+      if (null != ceilingKey && null != floorKey) {
+        if (floorKey.length() < ceilingKey.length()) {
+          codeString = Optional.of(ceilingKey);
+        } else {
+          codeString = Optional.of(floorKey);
+        }
+      } else if (null != ceilingKey) {
+        codeString = Optional.of(ceilingKey);
+      } else {
+        codeString = Optional.of(floorKey);
+      }
+    } else {
+      codeString = Optional.empty();
+    }
+//        codeString = encoder.keySet().stream()
+//            .filter(x -> x.equals(searchStr.substring(0, Math.min(searchStr.length(), x.length()))))
+//            .sorted(Comparator.comparing(x -> -x.length()))
+//            .findFirst();
+    return codeString;
+  }
+
+  public int getVocabSize() {
+    return vocabSize;
   }
 }
