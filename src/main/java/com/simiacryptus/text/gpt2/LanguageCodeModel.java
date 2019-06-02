@@ -19,6 +19,8 @@
 
 package com.simiacryptus.text.gpt2;
 
+import org.tensorflow.Tensor;
+
 import java.util.function.BiFunction;
 
 public interface LanguageCodeModel {
@@ -31,4 +33,6 @@ public interface LanguageCodeModel {
   BiFunction<String, String, Boolean> getFilterFn();
 
   LanguageCodeModel setFilterFn(BiFunction<String, String, Boolean> filterFn);
+
+  Tensor<?> state();
 }

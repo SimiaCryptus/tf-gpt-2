@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.tensorflow.Graph;
 import org.tensorflow.Session;
 import org.tensorflow.Tensor;
-import org.tensorflow.framework.GraphDef;
+import org.tensorflow.framework.*;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -58,12 +58,38 @@ public class GPT2Model implements LanguageCodeModel {
   }
 
   public GPT2Model(String name, byte[] graphDef, GraphModifier graphModifier, GPT2Codec codec) {
+    this(name, graphDef, graphModifier, codec, new Graph());
+  }
+
+  public GPT2Model(String name, byte[] graphDef, GraphModifier graphModifier, GPT2Codec codec, Graph graph) {
+    this(name, graphDef, graphModifier, codec, graph, new Session(graph, ConfigProto.newBuilder()
+        //.setLogDevicePlacement(true)
+        .setUsePerSessionThreads(true)
+        .setInterOpParallelismThreads(8)
+        .setIntraOpParallelismThreads(8)
+        .setIsolateSessionState(false)
+        .setGraphOptions(GraphOptions.newBuilder()
+            .setOptimizerOptions(OptimizerOptions.newBuilder()
+                .setDoConstantFolding(true)
+                .setDoFunctionInlining(true)
+                .setDoCommonSubexpressionElimination(true)
+                .build())
+            .build())
+        .setGpuOptions(GPUOptions.newBuilder()
+            //.setForceGpuCompatible(true)
+            .setAllowGrowth(true)
+            .setPerProcessGpuMemoryFraction(0.8)
+            .build())
+        .build().toByteArray()));
+  }
+
+  public GPT2Model(String name, byte[] graphDef, GraphModifier graphModifier, GPT2Codec codec, Graph graph, Session session) {
     this.name = name;
     this.graphDef = graphDef;
     this.graphModifier = graphModifier;
     this.codec = codec;
-    graph = new Graph();
-    session = new Session(graph);
+    this.graph = graph;
+    this.session = session;
     loadedSubnets = new HashSet<>();
   }
 
@@ -77,7 +103,7 @@ public class GPT2Model implements LanguageCodeModel {
 
   @Override
   public LanguageCodeModel copy() {
-    GPT2Model copy = new GPT2Model(name, graphDef, graphModifier, this.codec);
+    GPT2Model copy = new GPT2Model(name, graphDef, graphModifier, this.codec, this.graph, this.session);
     if (null == this.tensor_state) {
       copy.tensor_state = null;
     } else {
@@ -87,8 +113,6 @@ public class GPT2Model implements LanguageCodeModel {
       copy.tensor_state = Tensor.create(this.tensor_state.shape(), floatBuffer);
     }
     copy.history_size = this.history_size;
-    copy.session = this.session;
-    copy.graph = this.graph;
     copy.loadedSubnets = this.loadedSubnets;
     copy.code_history.addAll(this.code_history);
     copy.filterFn = this.filterFn;
@@ -216,6 +240,11 @@ public class GPT2Model implements LanguageCodeModel {
   public LanguageCodeModel setFilterFn(BiFunction<String, String, Boolean> filterFn) {
     this.filterFn = filterFn;
     return this;
+  }
+
+  @Override
+  public Tensor<?> state() {
+    return this.tensor_state;
   }
 
 }

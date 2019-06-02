@@ -19,6 +19,8 @@
 
 package com.simiacryptus.text.gpt2;
 
+import org.tensorflow.Tensor;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +68,11 @@ public class SimpleModel implements LanguageCodeModel {
   @Override
   public LanguageCodeModel setFilterFn(BiFunction<String, String, Boolean> filterFn) {
     return this;
+  }
+
+  @Override
+  public Tensor<?> state() {
+    return null;
   }
 
   public LanguageCodeModel setTemperature(double temperature) {
