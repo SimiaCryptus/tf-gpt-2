@@ -58,6 +58,18 @@
             <artifactId>java-util</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.tensorflow</groupId>
+            <artifactId>tensorflow</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.tensorflow</groupId>
+            <artifactId>libtensorflow_jni_gpu</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.tensorflow</groupId>
+            <artifactId>proto</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.simiacryptus</groupId>
             <artifactId>tensorflow-model</artifactId>
             <version>${project.version}</version>

@@ -46,7 +46,12 @@ public class GPT2Util {
 
   @NotNull
   public static TextGenerator get345M() {
-    return new TextGenerator(50257, getModel_345M(getGraphFile_345M()), getCodec_345M());
+    return new TextGenerator(50257, getModel_345M(), getCodec_345M());
+  }
+
+  @NotNull
+  public static GPT2Model getModel_345M() {
+    return getModel_345M(getGraphFile_345M());
   }
 
   @NotNull

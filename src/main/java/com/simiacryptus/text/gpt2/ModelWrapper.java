@@ -19,6 +19,8 @@
 
 package com.simiacryptus.text.gpt2;
 
+import org.tensorflow.Tensor;
+
 import java.util.Arrays;
 import java.util.function.BiFunction;
 
@@ -58,5 +60,11 @@ public abstract class ModelWrapper implements LanguageCodeModel {
       child.setFilterFn(filterFn);
     }
     return this;
+  }
+
+  @Override
+  public Tensor<?> state() {
+    assert 1 == children.length;
+    return children[0].state();
   }
 }

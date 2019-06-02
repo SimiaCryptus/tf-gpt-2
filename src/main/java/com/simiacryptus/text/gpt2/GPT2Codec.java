@@ -128,10 +128,11 @@ public class GPT2Codec {
   }
 
   protected Optional<String> lookup(String searchStr) {
+    if (null == searchStr || searchStr.isEmpty()) return Optional.empty();
     String ceilingKey = encoder.ceilingKey(searchStr);
     String floorKey = encoder.floorKey(searchStr);
-    if (!searchStr.startsWith(ceilingKey)) ceilingKey = null;
-    if (!searchStr.startsWith(floorKey)) floorKey = null;
+    if (null != ceilingKey && !searchStr.startsWith(ceilingKey)) ceilingKey = null;
+    if (null != floorKey && !searchStr.startsWith(floorKey)) floorKey = null;
     Optional<String> codeString;
     if (null != ceilingKey || null != floorKey) {
       if (null != ceilingKey && null != floorKey) {
