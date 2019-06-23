@@ -24,7 +24,7 @@ More Background:
 ### Instantiate the text generator
 
 ```java
-import com.simiacryptus.text.gpt2.TextGenerator;
+import com.simiacryptus.text.TextGenerator;
 import com.simiacryptus.text.gpt2.GPT2Util;
 TextGenerator textGenerator = GPT2Util.get345M();
 ```

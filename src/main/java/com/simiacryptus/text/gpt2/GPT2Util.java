@@ -19,6 +19,9 @@
 
 package com.simiacryptus.text.gpt2;
 
+import com.simiacryptus.text.LanguageCodeModel;
+import com.simiacryptus.text.SumModel;
+import com.simiacryptus.text.TextGenerator;
 import com.simiacryptus.util.Util;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -55,7 +58,7 @@ public class GPT2Util {
   }
 
   @NotNull
-  protected static GPT2Codec getCodec_345M() {
+  public static GPT2Codec getCodec_345M() {
     return new GPT2Codec(getEncoderFile_345M(), 50257);
   }
 
@@ -165,7 +168,7 @@ public class GPT2Util {
   }
 
   @NotNull
-  protected static TextGenerator getTextGenerator(TextGenerator base, List<LanguageCodeModel> languageCodeModels, String... seeds) {
+  public static TextGenerator getTextGenerator(TextGenerator base, List<LanguageCodeModel> languageCodeModels, String... seeds) {
     base.setModel(new SumModel(Stream.concat(
         Arrays.stream(seeds).map(seed -> {
           TextGenerator copy = base.copy();

@@ -20,7 +20,11 @@
 package com.simiacryptus.text.gpt2;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.simiacryptus.text.GraphModifier;
+import com.simiacryptus.text.LanguageCodeModel;
+import com.simiacryptus.text.TextGenerator;
 import org.apache.commons.io.FileUtils;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tensorflow.Graph;
@@ -64,10 +68,10 @@ public class GPT2Model implements LanguageCodeModel {
   public GPT2Model(String name, byte[] graphDef, GraphModifier graphModifier, GPT2Codec codec, Graph graph) {
     this(name, graphDef, graphModifier, codec, graph, new Session(graph, ConfigProto.newBuilder()
         //.setLogDevicePlacement(true)
-        .setUsePerSessionThreads(true)
-        .setInterOpParallelismThreads(8)
-        .setIntraOpParallelismThreads(8)
-        .setIsolateSessionState(false)
+//        .setUsePerSessionThreads(true)
+//        .setInterOpParallelismThreads(8)
+//        .setIntraOpParallelismThreads(8)
+//        .setIsolateSessionState(false)
         .setGraphOptions(GraphOptions.newBuilder()
             .setOptimizerOptions(OptimizerOptions.newBuilder()
                 .setDoConstantFolding(true)
@@ -76,9 +80,9 @@ public class GPT2Model implements LanguageCodeModel {
                 .build())
             .build())
         .setGpuOptions(GPUOptions.newBuilder()
-            //.setForceGpuCompatible(true)
+            .setForceGpuCompatible(true)
             .setAllowGrowth(true)
-            .setPerProcessGpuMemoryFraction(0.8)
+            .setPerProcessGpuMemoryFraction(0.5)
             .build())
         .build().toByteArray()));
   }
@@ -101,16 +105,21 @@ public class GPT2Model implements LanguageCodeModel {
     }
   }
 
+  @NotNull
+  public static Tensor<Float> copy(Tensor<Float> toCopy) {
+    FloatBuffer floatBuffer = FloatBuffer.allocate(toCopy.numElements());
+    toCopy.writeTo(floatBuffer);
+    floatBuffer.flip();
+    return Tensor.create(toCopy.shape(), floatBuffer);
+  }
+
   @Override
   public LanguageCodeModel copy() {
     GPT2Model copy = new GPT2Model(name, graphDef, graphModifier, this.codec, this.graph, this.session);
     if (null == this.tensor_state) {
       copy.tensor_state = null;
     } else {
-      FloatBuffer floatBuffer = FloatBuffer.allocate(this.tensor_state.numElements());
-      this.tensor_state.writeTo(floatBuffer);
-      floatBuffer.flip();
-      copy.tensor_state = Tensor.create(this.tensor_state.shape(), floatBuffer);
+      copy.tensor_state = copy(this.tensor_state);
     }
     copy.history_size = this.history_size;
     copy.loadedSubnets = this.loadedSubnets;
@@ -150,21 +159,8 @@ public class GPT2Model implements LanguageCodeModel {
     return logits;
   }
 
-  public Tensor<Float> accumulateState(Tensor<Float> outputState) {
-    final int dim = 4;
-    long[] outputShape = outputState.shape();
-    if (null == this.tensor_state) {
-      this.history_size = (int) outputShape[dim];
-      this.tensor_state = outputState;
-    } else {
-      this.history_size = this.history_size + 1;
-      this.tensor_state = outputState;
-    }
-    return this.tensor_state;
-  }
-
   @Override
-  public synchronized LanguageCodeModel resetState() {
+  public synchronized LanguageCodeModel clear() {
     logger.debug("Reset Language Model State");
     if (null != this.tensor_state) this.tensor_state.close();
     this.tensor_state = null;
@@ -207,28 +203,38 @@ public class GPT2Model implements LanguageCodeModel {
     }
   }
 
-  public float[] eval(String prefix, int... data_X) {
-    logger.debug(String.format("Eval(%s,%s)", session, Arrays.toString(data_X)));
-    Tensor<Integer> input_X = Tensor.create(new long[]{1, data_X.length}, IntBuffer.wrap(data_X));
-    Session.Runner runner = session.runner().feed("input_X", input_X);
-    if (null != this.tensor_state) runner = runner.feed(prefix + "input_past", this.tensor_state);
-    logger.debug("Input Codes: " + Arrays.toString(data_X));
-    logger.debug("Input State: " + (this.tensor_state == null ? "null" : Arrays.toString(this.tensor_state.shape())));
-    final Tensor<Float> prevState = this.tensor_state;
-    runner = runner
-        .fetch(prefix + "output/strided_slice_1")
-        .fetch((0 == history_size) ? (prefix + "model/stack") : (prefix + "output/concat"));
-    List<Tensor<?>> run = runner.run();
-    Tensor<Float> tensor_next = run.get(0).expect(Float.class);
-    final Tensor<Float> outputState = run.get(1).expect(Float.class); // reshape(shape_state, run.get(1).expect(Float.class));
-    logger.debug("Output Logits: " + Arrays.toString(tensor_next.shape()));
-    logger.debug("Output State: " + Arrays.toString(outputState.shape()));
-    accumulateState(outputState);
-    float[] logits = new float[tensor_next.numElements()];
-    tensor_next.writeTo(FloatBuffer.wrap(logits));
-    if (null != prevState) prevState.close();
-    input_X.close();
-    return logitsToProbabilities(logits);
+  public synchronized float[] eval(String prefix, int... data_X) {
+    synchronized (session) {
+      logger.debug(String.format("Eval(%s,%s)", session, Arrays.toString(data_X)));
+      Tensor<Integer> input_X = Tensor.create(new long[]{1, data_X.length}, IntBuffer.wrap(data_X));
+      Session.Runner runner = session.runner().feed("input_X", input_X);
+      if (null != this.tensor_state) runner = runner.feed(prefix + "input_past", this.tensor_state);
+      logger.debug("Input Codes: " + Arrays.toString(data_X));
+      logger.debug("Input State: " + (this.tensor_state == null ? "null" : Arrays.toString(this.tensor_state.shape())));
+      final Tensor<Float> prevState = this.tensor_state;
+      runner = runner
+          .fetch(prefix + "output/strided_slice_1")
+          .fetch((0 == history_size) ? (prefix + "model/stack") : (prefix + "output/concat"));
+      List<Tensor<?>> run = runner.run();
+      Tensor<Float> tensor_next = run.get(0).expect(Float.class);
+      final Tensor<Float> outputState = run.get(1).expect(Float.class); // reshape(shape_state, run.get(1).expect(Float.class));
+      logger.debug("Output Logits: " + Arrays.toString(tensor_next.shape()));
+      logger.debug("Output State: " + Arrays.toString(outputState.shape()));
+      if (null == this.tensor_state) {
+        this.history_size = (int) outputState.shape()[4];
+        this.tensor_state = outputState;
+      } else {
+        this.history_size = this.history_size + 1;
+        this.tensor_state.close();
+        this.tensor_state = outputState;
+      }
+      float[] logits = new float[tensor_next.numElements()];
+      tensor_next.writeTo(FloatBuffer.wrap(logits));
+      tensor_next.close();
+      if (null != prevState) prevState.close();
+      input_X.close();
+      return logitsToProbabilities(logits);
+    }
   }
 
   @Override
