@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package com.simiacryptus.text.gpt2;
+package com.simiacryptus.text;
 
 public class TemperatureWrapper extends ModelWrapper {
 

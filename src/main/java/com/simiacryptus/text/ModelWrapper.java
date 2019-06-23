@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package com.simiacryptus.text.gpt2;
+package com.simiacryptus.text;
 
 import org.tensorflow.Tensor;
 
@@ -39,9 +39,9 @@ public abstract class ModelWrapper implements LanguageCodeModel {
   }
 
   @Override
-  public LanguageCodeModel resetState() {
+  public LanguageCodeModel clear() {
     for (LanguageCodeModel child : children) {
-      child.resetState();
+      child.clear();
     }
     return this;
   }

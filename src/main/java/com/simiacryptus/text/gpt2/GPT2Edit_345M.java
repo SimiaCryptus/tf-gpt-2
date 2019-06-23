@@ -18,6 +18,7 @@
  */
 package com.simiacryptus.text.gpt2;
 
+import com.simiacryptus.text.GraphModifier;
 import org.tensorflow.framework.AttrValue;
 import org.tensorflow.framework.DataType;
 import org.tensorflow.framework.NodeDef;

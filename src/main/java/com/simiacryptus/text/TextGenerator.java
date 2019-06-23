@@ -17,8 +17,9 @@
  * under the License.
  */
 
-package com.simiacryptus.text.gpt2;
+package com.simiacryptus.text;
 
+import com.simiacryptus.text.gpt2.GPT2Codec;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +41,7 @@ public class TextGenerator {
   float[] nextSelections;
   private LanguageCodeModel model;
 
-  TextGenerator(int vocabularySize, LanguageCodeModel model, GPT2Codec codec) {
+  public TextGenerator(int vocabularySize, LanguageCodeModel model, GPT2Codec codec) {
     this.setModel(model);
     this.vocabularySize = vocabularySize;
     this.codec = codec;
@@ -161,7 +162,7 @@ public class TextGenerator {
 
   public TextGenerator reset() {
     codes.clear();
-    getModel().resetState();
+    getModel().clear();
     return this;
   }
 
@@ -198,6 +199,8 @@ public class TextGenerator {
   }
 
   public TextGenerator setModel(LanguageCodeModel model) {
+    if (this.model == model) return this;
+    if (null != this.model) this.model.clear();
     this.model = model;
     return this;
   }

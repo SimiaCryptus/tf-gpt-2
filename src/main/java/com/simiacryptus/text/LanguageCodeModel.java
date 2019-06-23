@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package com.simiacryptus.text.gpt2;
+package com.simiacryptus.text;
 
 import org.tensorflow.Tensor;
 
@@ -26,7 +26,7 @@ import java.util.function.BiFunction;
 public interface LanguageCodeModel {
   LanguageCodeModel copy();
 
-  LanguageCodeModel resetState();
+  LanguageCodeModel clear();
 
   float[] eval(int data_X);
 

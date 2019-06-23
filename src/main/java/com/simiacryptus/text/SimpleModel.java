@@ -17,8 +17,9 @@
  * under the License.
  */
 
-package com.simiacryptus.text.gpt2;
+package com.simiacryptus.text;
 
+import com.simiacryptus.text.gpt2.GPT2Codec;
 import org.tensorflow.Tensor;
 
 import java.util.Arrays;
@@ -51,7 +52,7 @@ public class SimpleModel implements LanguageCodeModel {
   }
 
   @Override
-  public LanguageCodeModel resetState() {
+  public LanguageCodeModel clear() {
     return this;
   }
 
