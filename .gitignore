@@ -2,6 +2,7 @@
 buildNumber.properties
 dependency-reduced-pom.xml
 encoder_345M.json
+.idea/
 .mvn/timing.properties
 !/.mvn/wrapper/maven-wrapper.jar
 *.pb
