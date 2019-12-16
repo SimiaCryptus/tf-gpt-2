@@ -47,6 +47,43 @@ public class TextGenerator {
     this.codec = codec;
   }
 
+  public int getChoicesToLog() {
+    return choicesToLog;
+  }
+
+  public TextGenerator setChoicesToLog(int choicesToLog) {
+    this.choicesToLog = choicesToLog;
+    return this;
+  }
+
+  public LanguageCodeModel getModel() {
+    return model;
+  }
+
+  public TextGenerator setModel(LanguageCodeModel model) {
+    if (this.model == model) return this;
+    if (null != this.model) this.model.clear();
+    this.model = model;
+    return this;
+  }
+
+  public String getText() {
+    return codec.decode(codes.toArray(new Integer[]{}));
+  }
+
+  public int getVocabularySize() {
+    return vocabularySize;
+  }
+
+  public boolean isVerbose() {
+    return verbose;
+  }
+
+  public TextGenerator setVerbose(boolean verbose) {
+    this.verbose = verbose;
+    return this;
+  }
+
   public static int[] sortedIndices(float[] chosen, int limit) {
     return IntStream.range(0, chosen.length)
         .mapToObj(x -> x)
@@ -89,10 +126,6 @@ public class TextGenerator {
     feed(prefix);
     generate(numberOfTokens);
     return getText();
-  }
-
-  public String getText() {
-    return codec.decode(codes.toArray(new Integer[]{}));
   }
 
   public String generate(Predicate<String> fn) {
@@ -183,38 +216,5 @@ public class TextGenerator {
   protected void log(float[] chosen, GPT2Codec codec, int count) {
     Arrays.stream(sortedIndices(chosen, count))
         .forEach(candidate -> logger.info(String.format("\t#%d %.4f%% '%s'", candidate, chosen[candidate] * 100, codec.decode(candidate))));
-  }
-
-  public boolean isVerbose() {
-    return verbose;
-  }
-
-  public TextGenerator setVerbose(boolean verbose) {
-    this.verbose = verbose;
-    return this;
-  }
-
-  public LanguageCodeModel getModel() {
-    return model;
-  }
-
-  public TextGenerator setModel(LanguageCodeModel model) {
-    if (this.model == model) return this;
-    if (null != this.model) this.model.clear();
-    this.model = model;
-    return this;
-  }
-
-  public int getVocabularySize() {
-    return vocabularySize;
-  }
-
-  public int getChoicesToLog() {
-    return choicesToLog;
-  }
-
-  public TextGenerator setChoicesToLog(int choicesToLog) {
-    this.choicesToLog = choicesToLog;
-    return this;
   }
 }

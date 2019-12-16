@@ -97,6 +97,11 @@ public class GPT2Model implements LanguageCodeModel {
     loadedSubnets = new HashSet<>();
   }
 
+  @Override
+  public BiFunction<String, String, Boolean> getFilterFn() {
+    return filterFn;
+  }
+
   public static byte[] loadModel(File file) {
     try {
       return FileUtils.readFileToByteArray(file);
@@ -235,11 +240,6 @@ public class GPT2Model implements LanguageCodeModel {
       input_X.close();
       return logitsToProbabilities(logits);
     }
-  }
-
-  @Override
-  public BiFunction<String, String, Boolean> getFilterFn() {
-    return filterFn;
   }
 
   @Override

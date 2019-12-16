@@ -157,31 +157,6 @@ class GraphComparer implements Consumer<GraphModel.DeltaRecord> {
     }
   }
 
-  private void compare(GraphModel.DeltaRecord delta, Map<String, AttrValue> left, Map<String, AttrValue> right) {
-    Stream.concat(
-        left.keySet().stream(),
-        right.keySet().stream()
-    )
-        .forEach(key -> {
-          AttrValue leftValue = left.get(key);
-          AttrValue rightValue = right.get(key);
-          if (null == leftValue) {
-            getBuffer(delta.name).add(String.format("node.putAttr(\"%s\", %s);", key, toString(rightValue).trim()));
-          } else if (null == rightValue) {
-            getBuffer(delta.name).add(String.format("node.removeAttr(\"%s\");", key));
-          } else {
-            if (!leftValue.toString().equals(rightValue.toString())) {
-              getBuffer(delta.name).add(String.format("node.putAttr(\"%s\", %s);", key, toString(rightValue).trim()));
-            }
-          }
-        });
-  }
-
-  @NotNull
-  private ArrayList<String> getBuffer(String name) {
-    return nodeEdits.computeIfAbsent(name, k -> new ArrayList<String>());
-  }
-
   public void compareInputs(GraphModel.DeltaRecord delta, List<String> leftData, List<String> rightData) {
     if (leftData == null || leftData.size() == 0) {
       getBuffer(delta.name).add(rightData.stream().map(input ->
@@ -206,6 +181,31 @@ class GraphComparer implements Consumer<GraphModel.DeltaRecord> {
             rightData.stream().map(x -> '"' + x + '"').reduce((a, b) -> a + "," + b).orElseGet(() -> "")));
       }
     }
+  }
+
+  private void compare(GraphModel.DeltaRecord delta, Map<String, AttrValue> left, Map<String, AttrValue> right) {
+    Stream.concat(
+        left.keySet().stream(),
+        right.keySet().stream()
+    )
+        .forEach(key -> {
+          AttrValue leftValue = left.get(key);
+          AttrValue rightValue = right.get(key);
+          if (null == leftValue) {
+            getBuffer(delta.name).add(String.format("node.putAttr(\"%s\", %s);", key, toString(rightValue).trim()));
+          } else if (null == rightValue) {
+            getBuffer(delta.name).add(String.format("node.removeAttr(\"%s\");", key));
+          } else {
+            if (!leftValue.toString().equals(rightValue.toString())) {
+              getBuffer(delta.name).add(String.format("node.putAttr(\"%s\", %s);", key, toString(rightValue).trim()));
+            }
+          }
+        });
+  }
+
+  @NotNull
+  private ArrayList<String> getBuffer(String name) {
+    return nodeEdits.computeIfAbsent(name, k -> new ArrayList<String>());
   }
 
 }

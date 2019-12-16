@@ -36,6 +36,11 @@ public class SimpleModel implements LanguageCodeModel {
     this.result = Arrays.copyOf(result, result.length);
   }
 
+  @Override
+  public BiFunction<String, String, Boolean> getFilterFn() {
+    return null;
+  }
+
   public static SimpleModel build(GPT2Codec codec, String text) {
     List<Integer> encode = codec.encode(text);
     Map<Integer, Long> counts = encode.stream().collect(Collectors.groupingBy(x -> x, Collectors.counting()));
@@ -59,11 +64,6 @@ public class SimpleModel implements LanguageCodeModel {
   @Override
   public float[] eval(int data_X) {
     return Arrays.copyOf(result, result.length);
-  }
-
-  @Override
-  public BiFunction<String, String, Boolean> getFilterFn() {
-    return null;
   }
 
   @Override

@@ -24,15 +24,15 @@ import org.tensorflow.Tensor;
 import java.util.function.BiFunction;
 
 public interface LanguageCodeModel {
+  BiFunction<String, String, Boolean> getFilterFn();
+
+  LanguageCodeModel setFilterFn(BiFunction<String, String, Boolean> filterFn);
+
   LanguageCodeModel copy();
 
   LanguageCodeModel clear();
 
   float[] eval(int data_X);
-
-  BiFunction<String, String, Boolean> getFilterFn();
-
-  LanguageCodeModel setFilterFn(BiFunction<String, String, Boolean> filterFn);
 
   Tensor<?> state();
 }

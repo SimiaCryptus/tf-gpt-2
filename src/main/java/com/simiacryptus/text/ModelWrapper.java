@@ -32,6 +32,11 @@ public abstract class ModelWrapper implements LanguageCodeModel {
   }
 
   @Override
+  public BiFunction<String, String, Boolean> getFilterFn() {
+    return children[0].getFilterFn();
+  }
+
+  @Override
   public LanguageCodeModel copy() {
     return new SumModel(Arrays.stream(children)
         .map(LanguageCodeModel::copy)
@@ -48,11 +53,6 @@ public abstract class ModelWrapper implements LanguageCodeModel {
 
   @Override
   public abstract float[] eval(int data_X);
-
-  @Override
-  public BiFunction<String, String, Boolean> getFilterFn() {
-    return children[0].getFilterFn();
-  }
 
   @Override
   public LanguageCodeModel setFilterFn(BiFunction<String, String, Boolean> filterFn) {

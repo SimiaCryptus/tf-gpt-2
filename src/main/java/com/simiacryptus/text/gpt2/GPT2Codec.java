@@ -50,6 +50,22 @@ public class GPT2Codec {
     this(GPT2Codec.loadEncoder(file), vocabSize);
   }
 
+  @NotNull
+  public static Function<String, String> getCharacterTransformer() {
+    Map<Character, Character> byteEncoder = byteEncoder();
+    return x -> {
+      char[] chars = x.toCharArray();
+      for (int i = 0; i < chars.length; i++) {
+        chars[i] = byteEncoder.getOrDefault(chars[i], chars[i]);
+      }
+      return new String(chars);
+    };
+  }
+
+  public int getVocabSize() {
+    return vocabSize;
+  }
+
   public static TreeMap<Integer, String> buildDecoder(TreeMap<String, Integer> encoder) {
     Stream<Map.Entry<String, Integer>> stream = encoder.entrySet().stream();
     return new TreeMap<>(stream.collect(Collectors.toMap(
@@ -70,18 +86,6 @@ public class GPT2Codec {
   public static TreeMap<String, Integer> toMap(String jsonTxt, Function<String, String> keyEncoder) {
     JsonObject json = new GsonBuilder().create().fromJson(jsonTxt, JsonObject.class);
     return new TreeMap<>(json.keySet().stream().collect(Collectors.toMap(keyEncoder, x -> json.get(x).getAsInt(), (a, b) -> a)));
-  }
-
-  @NotNull
-  public static Function<String, String> getCharacterTransformer() {
-    Map<Character, Character> byteEncoder = byteEncoder();
-    return x -> {
-      char[] chars = x.toCharArray();
-      for (int i = 0; i < chars.length; i++) {
-        chars[i] = byteEncoder.getOrDefault(chars[i], chars[i]);
-      }
-      return new String(chars);
-    };
   }
 
   public static Map<Character, Character> byteEncoder() {
@@ -154,9 +158,5 @@ public class GPT2Codec {
 //            .sorted(Comparator.comparing(x -> -x.length()))
 //            .findFirst();
     return codeString;
-  }
-
-  public int getVocabSize() {
-    return vocabSize;
   }
 }

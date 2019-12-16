@@ -47,6 +47,8 @@ import static org.tensorflow.framework.DataType.DT_INT32;
 public abstract class GraphModifier {
   protected static final Logger logger = LoggerFactory.getLogger(GPT2Codec.class);
 
+  public abstract HashSet<String> getDeletes_Init();
+
   public static void importGraphDef(Graph graph, GraphDef graphdef) {
     final HashSet<Object> opsPresent = new HashSet<>();
     graph.operations().forEachRemaining(op -> {
@@ -231,6 +233,8 @@ public abstract class GraphModifier {
     return prefixRewrite(destGraphDef.build(), editedNodes, prefix, includeOriginal);
   }
 
+  public abstract NodeDef.Builder edit(NodeDef.Builder node);
+
   protected abstract void addNodes(Consumer<NodeDef> add);
 
   protected GraphDef prefixRewrite(GraphDef graphDef, HashSet<String> editedNodes, String prefix, boolean includeOriginal) {
@@ -276,8 +280,4 @@ public abstract class GraphModifier {
     }
     return destGraphDef.build();
   }
-
-  public abstract HashSet<String> getDeletes_Init();
-
-  public abstract NodeDef.Builder edit(NodeDef.Builder node);
 }

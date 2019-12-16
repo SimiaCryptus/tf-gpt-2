@@ -53,11 +53,6 @@ public class GPT2Util {
   }
 
   @NotNull
-  public static GPT2Model getModel_345M() {
-    return getModel_345M(getGraphFile_345M());
-  }
-
-  @NotNull
   public static GPT2Codec getCodec_345M() {
     return new GPT2Codec(getEncoderFile_345M(), 50257);
   }
@@ -70,6 +65,15 @@ public class GPT2Util {
   @NotNull
   public static File getGraphFile_345M() {
     return loadRawInternetFile(MODEL_URL_BASE, "345M.pb");
+  }
+
+  @NotNull
+  public static GPT2Model getModel_345M() {
+    return getModel_345M(getGraphFile_345M());
+  }
+
+  public static TextGenerator getTextGenerator() {
+    return prototype.copy();
   }
 
   public @NotNull
@@ -118,11 +122,6 @@ public class GPT2Util {
   }
 
   @NotNull
-  protected static TextGenerator getTextGenerator(String characterWhitelist, URI wordlist) throws IOException, NoSuchAlgorithmException, KeyManagementException {
-    return getTextGenerator(getTextGenerator(), characterWhitelist, wordlist);
-  }
-
-  @NotNull
   public static TextGenerator getTextGenerator(TextGenerator textGenerator, String characterWhitelist, URI wordlist) throws IOException, NoSuchAlgorithmException, KeyManagementException {
     TreeSet<String> wordList = null == wordlist ? null : new TreeSet<>(
         Arrays.stream(FileUtils.readFileToString(Util.cacheFile(wordlist), "UTF-8").split("\\s+"))
@@ -152,10 +151,6 @@ public class GPT2Util {
     return textGenerator;
   }
 
-  public static TextGenerator getTextGenerator() {
-    return prototype.copy();
-  }
-
   @NotNull
   public static TextGenerator getTextGenerator(String... seeds) {
     return getTextGenerator(get345M().setVerbose(false), seeds);
@@ -178,5 +173,10 @@ public class GPT2Util {
         languageCodeModels.stream()
     ).toArray(i -> new LanguageCodeModel[i])));
     return base;
+  }
+
+  @NotNull
+  protected static TextGenerator getTextGenerator(String characterWhitelist, URI wordlist) throws IOException, NoSuchAlgorithmException, KeyManagementException {
+    return getTextGenerator(getTextGenerator(), characterWhitelist, wordlist);
   }
 }

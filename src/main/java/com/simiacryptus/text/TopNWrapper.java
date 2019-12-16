@@ -31,6 +31,14 @@ public class TopNWrapper extends ModelWrapper {
     this.value = value;
   }
 
+  public int getValue() {
+    return value;
+  }
+
+  public void setValue(int value) {
+    this.value = value;
+  }
+
   @Override
   public float[] eval(int data_X) {
     LanguageCodeModel child = children[0];
@@ -45,13 +53,5 @@ public class TopNWrapper extends ModelWrapper {
     }
     SumModel.normalize(floats);
     return floats;
-  }
-
-  public int getValue() {
-    return value;
-  }
-
-  public void setValue(int value) {
-    this.value = value;
   }
 }

@@ -28,6 +28,14 @@ public class TemperatureWrapper extends ModelWrapper {
     this.value = value;
   }
 
+  public double getValue() {
+    return value;
+  }
+
+  public void setValue(double value) {
+    this.value = value;
+  }
+
   @Override
   public float[] eval(int data_X) {
     LanguageCodeModel child = children[0];
@@ -37,13 +45,5 @@ public class TemperatureWrapper extends ModelWrapper {
     }
     SumModel.normalize(floats);
     return floats;
-  }
-
-  public double getValue() {
-    return value;
-  }
-
-  public void setValue(double value) {
-    this.value = value;
   }
 }

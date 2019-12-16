@@ -37,6 +37,14 @@ public class MinEntropyWrapper extends ModelWrapper {
     this.value = value;
   }
 
+  public double getValue() {
+    return value;
+  }
+
+  public void setValue(double value) {
+    this.value = value;
+  }
+
   public static double entropy(float[] floats) {
     return IntStream.range(0, floats.length).mapToDouble(i -> {
       float p = floats[i];
@@ -74,13 +82,5 @@ public class MinEntropyWrapper extends ModelWrapper {
     logger.debug(String.format("Entropy = %s => %s", entropy, entropy(floats)));
     //SumModel.normalize(floats);
     return floats;
-  }
-
-  public double getValue() {
-    return value;
-  }
-
-  public void setValue(double value) {
-    this.value = value;
   }
 }
