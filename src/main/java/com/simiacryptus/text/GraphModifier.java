@@ -103,7 +103,7 @@ public abstract class GraphModifier {
                   break;
                 }
                 case TYPE: {
-                  operationBuilder.setAttr(k, org.tensorflow.DataType.valueOf(v.getType().name().split("_")[1]));
+                  operationBuilder.setAttr(k, DataType.valueOf(v.getType().name().split("_")[1]));
                   break;
                 }
                 case I: {

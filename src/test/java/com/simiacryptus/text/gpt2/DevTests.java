@@ -23,6 +23,7 @@ import com.simiacryptus.tensorflow.GraphModel;
 import com.simiacryptus.tensorflow.TFUtil;
 import org.junit.Test;
 import org.tensorflow.Output;
+import org.tensorflow.TensorFlowException;
 
 import java.io.File;
 import java.util.Arrays;
@@ -66,7 +67,7 @@ public class DevTests {
     });
   }
 
-  @Test(expected = org.tensorflow.TensorFlowException.class)
+  @Test(expected = TensorFlowException.class)
   public void addGradient() throws Exception {
     try {
       byte[] originalGraphDef = GPT2Model.loadModel(new File(modelHome(), "345M" + ".pb"));
