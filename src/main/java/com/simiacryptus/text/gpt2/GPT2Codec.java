@@ -116,7 +116,7 @@ public class GPT2Codec {
   public List<Integer> encode(String msg) {
     ArrayList<Integer> list = new ArrayList<>();
     if (null != msg && !msg.isEmpty()) {
-      StringBuffer stringBuffer = new StringBuffer(msg);
+      com.simiacryptus.ref.wrappers.RefStringBuilder stringBuffer = new com.simiacryptus.ref.wrappers.RefStringBuilder(msg);
       while (stringBuffer.length() > 0) {
         Optional<String> codeString = lookup(stringBuffer.toString());
         if (codeString.isPresent()) {

@@ -20,6 +20,7 @@
 package com.simiacryptus.text.gpt2;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.simiacryptus.ref.wrappers.RefString;
 import com.simiacryptus.text.GraphModifier;
 import com.simiacryptus.text.LanguageCodeModel;
 import com.simiacryptus.text.TextGenerator;
@@ -176,7 +177,7 @@ public class GPT2Model implements LanguageCodeModel {
 
   @Override
   public synchronized float[] eval(int data_X) {
-    logger.debug(String.format("Eval %d", data_X));
+    logger.debug(RefString.format("Eval %d", data_X));
     try {
       String prefix;
       if (!loadedSubnets.contains("")) {
@@ -210,7 +211,7 @@ public class GPT2Model implements LanguageCodeModel {
 
   public synchronized float[] eval(String prefix, int... data_X) {
     synchronized (session) {
-      logger.debug(String.format("Eval(%s,%s)", session, Arrays.toString(data_X)));
+      logger.debug(RefString.format("Eval(%s,%s)", session, Arrays.toString(data_X)));
       Tensor<Integer> input_X = Tensor.create(new long[]{1, data_X.length}, IntBuffer.wrap(data_X));
       Session.Runner runner = session.runner().feed("input_X", input_X);
       if (null != this.tensor_state) runner = runner.feed(prefix + "input_past", this.tensor_state);

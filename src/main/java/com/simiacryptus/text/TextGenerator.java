@@ -19,6 +19,7 @@
 
 package com.simiacryptus.text;
 
+import com.simiacryptus.ref.wrappers.RefString;
 import com.simiacryptus.text.gpt2.GPT2Codec;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -136,7 +137,7 @@ public class TextGenerator {
         int selected = select(nextSelections);
         if (isVerbose()) {
           if (wordIndex != 0) log(nextSelections, codec, getChoicesToLog());
-          logger.info(String.format("Selected New Text: '%s'", codec.decode(selected)));
+          logger.info(RefString.format("Selected New Text: '%s'", codec.decode(selected)));
         }
         if (selected == getVocabularySize() - 1) break;
         codes.add(selected);
@@ -157,7 +158,7 @@ public class TextGenerator {
         int selected = select(nextSelections);
         if (isVerbose()) {
           if (wordIndex != 0) log(nextSelections, codec, getChoicesToLog());
-          logger.info(String.format("Selected New Text: '%s'", codec.decode(selected)));
+          logger.info(RefString.format("Selected New Text: '%s'", codec.decode(selected)));
         }
         if (selected == getVocabularySize() - 1) break;
         codes.add(selected);
@@ -186,7 +187,7 @@ public class TextGenerator {
       codes.add(code);
       nextSelections = getModel().eval(code);
       if (isVerbose()) {
-        logger.info(String.format("Feed token: '%s'", codec.decode(code)));
+        logger.info(RefString.format("Feed token: '%s'", codec.decode(code)));
         log(nextSelections, codec, getChoicesToLog());
       }
     }
@@ -209,12 +210,12 @@ public class TextGenerator {
       fate -= chosen[topCandidate];
     }
     int topCandidate = topCandidates[j];
-    logger.debug(String.format("Chose #%s with fate %s", topCandidate, originalFate));
+    logger.debug(RefString.format("Chose #%s with fate %s", topCandidate, originalFate));
     return topCandidate;
   }
 
   protected void log(float[] chosen, GPT2Codec codec, int count) {
     Arrays.stream(sortedIndices(chosen, count))
-        .forEach(candidate -> logger.info(String.format("\t#%d %.4f%% '%s'", candidate, chosen[candidate] * 100, codec.decode(candidate))));
+        .forEach(candidate -> logger.info(RefString.format("\t#%d %.4f%% '%s'", candidate, chosen[candidate] * 100, codec.decode(candidate))));
   }
 }

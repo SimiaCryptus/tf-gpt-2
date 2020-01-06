@@ -19,6 +19,7 @@
 
 package com.simiacryptus.text;
 
+import com.simiacryptus.ref.wrappers.RefString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,7 +80,7 @@ public class MinEntropyWrapper extends ModelWrapper {
         break;
       }
     }
-    logger.debug(String.format("Entropy = %s => %s", entropy, entropy(floats)));
+    logger.debug(RefString.format("Entropy = %s => %s", entropy, entropy(floats)));
     //SumModel.normalize(floats);
     return floats;
   }
