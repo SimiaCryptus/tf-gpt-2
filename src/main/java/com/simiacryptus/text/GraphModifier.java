@@ -96,24 +96,20 @@ public abstract class GraphModifier {
                   }
                   break;
                 }
-                case SHAPE: {
+                case SHAPE:
                   final TensorShapeProto shapeProto = v.getShape();
                   final long[] shape = shapeProto.getDimList().stream().mapToLong(x -> x.getSize()).toArray();
                   operationBuilder.setAttr(k, Shape.make(shape[0], Arrays.copyOfRange(shape, 1, shape.length)));
                   break;
-                }
-                case TYPE: {
+                case TYPE:
                   operationBuilder.setAttr(k, DataType.valueOf(v.getType().name().split("_")[1]));
                   break;
-                }
-                case I: {
+                case I:
                   operationBuilder.setAttr(k, v.getI());
                   break;
-                }
-                case B: {
+                case B:
                   operationBuilder.setAttr(k, v.getB());
                   break;
-                }
                 default:
                   throw new RuntimeException(k + " = " + v.toString());
               }

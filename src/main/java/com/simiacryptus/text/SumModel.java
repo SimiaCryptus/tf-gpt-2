@@ -19,6 +19,8 @@
 
 package com.simiacryptus.text;
 
+import com.simiacryptus.ref.lang.RefUtil;
+
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
@@ -35,10 +37,10 @@ public class SumModel extends ModelWrapper {
 
   @Override
   public float[] eval(int data_X) {
-    float[] sums = Arrays.stream(children).map(c -> c.eval(data_X)).reduce((a, b) -> {
+    float[] sums = RefUtil.get(Arrays.stream(children).map(c -> c.eval(data_X)).reduce((a, b) -> {
       for (int i = 0; i < a.length; i++) a[i] *= b[i];
       return a;
-    }).get();
+    }));
     normalize(sums);
     return sums;
   }

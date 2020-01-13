@@ -19,6 +19,7 @@
 
 package com.simiacryptus.text.gpt2;
 
+import com.simiacryptus.ref.lang.RefUtil;
 import com.simiacryptus.tensorflow.GraphModel;
 import com.simiacryptus.tensorflow.TFUtil;
 import org.junit.Test;
@@ -93,7 +94,7 @@ public class DevTests {
         "This is a test",
         "<|endoftext|>"
     )) {
-      System.out.println(text + " => " + encoder.encode(text).stream().map(x -> x.toString()).reduce((a, b) -> a + ", " + b).get());
+      System.out.println(text + " => " + RefUtil.get(encoder.encode(text).stream().map(x -> x.toString()).reduce((a, b) -> a + ", " + b)));
     }
   }
 

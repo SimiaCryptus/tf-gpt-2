@@ -21,6 +21,7 @@ package com.simiacryptus.text.gpt2;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.simiacryptus.ref.lang.RefUtil;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -120,7 +121,7 @@ public class GPT2Codec {
       while (stringBuffer.length() > 0) {
         Optional<String> codeString = lookup(stringBuffer.toString());
         if (codeString.isPresent()) {
-          String key = codeString.get();
+          String key = RefUtil.get(codeString);
           stringBuffer.delete(0, key.length());
           list.add(encoder.get(key));
         } else {

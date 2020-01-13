@@ -51,10 +51,9 @@ class GraphComparer implements Consumer<GraphModel.DeltaRecord> {
         return RefString.format("AttrValue.newBuilder().setS(%s).build()", value.getS().toStringUtf8());
       case TYPE:
         return RefString.format("AttrValue.newBuilder().setType(DataType.forNumber(%s)).build()", value.getType().getNumber());
-      case SHAPE: {
+      case SHAPE:
         return RefString.format("AttrValue.newBuilder().setShape(shape(%s)).build()", toString(dims(value.getShape())));
-      }
-      case TENSOR: {
+      case TENSOR:
         TensorProto tensor = value.getTensor();
         TensorShapeProto shape = tensor.getTensorShape();
         switch (tensor.getDtype()) {
@@ -70,7 +69,7 @@ class GraphComparer implements Consumer<GraphModel.DeltaRecord> {
               return RefString.format("AttrValue.newBuilder().setTensor(tensor2(new int[]{ %s }, new int[] { %s })).build()", shapeElements, elements);
             });
           }
-          case DT_FLOAT: {
+          case DT_FLOAT:
             String shapeElements = shape.getDimList().stream().map(x -> Long.toString(x.getSize())).reduce((a, b) -> a + ", " + b).orElse("");
             return tensor.getFloatValList().stream().map(x -> Float.toString(x)).reduce((a, b) -> a + ", " + b).map(elements -> {
               return RefString.format("AttrValue.newBuilder().setTensor(tensor1(new int[]{ %s }, new int[] { %s })).build()", shapeElements, elements);
@@ -81,9 +80,7 @@ class GraphComparer implements Consumer<GraphModel.DeltaRecord> {
               String elements = IntStream.range(0, dst.length).mapToDouble(i -> dst[i]).mapToObj(Double::toString).reduce((a, b) -> a + ", " + b).orElse("");
               return RefString.format("AttrValue.newBuilder().setTensor(tensor2(new int[]{ %s }, new float[]{ %s })).build()", shapeElements, elements);
             });
-          }
         }
-      }
       default:
         return "/* " + value.getType() + " - " + value.toString().trim() + " */";
     }
