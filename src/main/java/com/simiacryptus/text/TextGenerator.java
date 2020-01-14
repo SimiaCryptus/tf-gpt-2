@@ -21,10 +21,11 @@ package com.simiacryptus.text;
 
 import com.simiacryptus.ref.wrappers.RefString;
 import com.simiacryptus.text.gpt2.GPT2Codec;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -38,7 +39,9 @@ public class TextGenerator {
   protected final GPT2Codec codec;
   protected boolean verbose = false;
   protected int choicesToLog = 10;
+  @Nonnull
   List<Integer> codes = new ArrayList<>();
+  @Nullable
   float[] nextSelections;
   private LanguageCodeModel model;
 
@@ -52,6 +55,7 @@ public class TextGenerator {
     return choicesToLog;
   }
 
+  @Nonnull
   public TextGenerator setChoicesToLog(int choicesToLog) {
     this.choicesToLog = choicesToLog;
     return this;
@@ -61,6 +65,7 @@ public class TextGenerator {
     return model;
   }
 
+  @Nonnull
   public TextGenerator setModel(LanguageCodeModel model) {
     if (this.model == model) return this;
     if (null != this.model) this.model.clear();
@@ -80,12 +85,13 @@ public class TextGenerator {
     return verbose;
   }
 
+  @Nonnull
   public TextGenerator setVerbose(boolean verbose) {
     this.verbose = verbose;
     return this;
   }
 
-  public static int[] sortedIndices(float[] chosen, int limit) {
+  public static int[] sortedIndices(@Nonnull float[] chosen, int limit) {
     return IntStream.range(0, chosen.length)
         .mapToObj(x -> x)
         .sorted(Comparator.comparing(c -> -chosen[c]))
@@ -94,6 +100,7 @@ public class TextGenerator {
         .toArray();
   }
 
+  @Nonnull
   public TextGenerator copy() {
     TextGenerator copy = new TextGenerator(vocabularySize, getModel().copy(), codec);
     copy.codes.addAll(this.codes);
@@ -103,25 +110,25 @@ public class TextGenerator {
     return copy;
   }
 
-  @NotNull
-  public String generateText(Predicate<String> terminator) {
+  @Nonnull
+  public String generateText(@Nonnull Predicate<String> terminator) {
     return generateText(terminator, null);
   }
 
-  @NotNull
+  @Nonnull
   public String generateText(int numberOfWords) {
     return generateText(numberOfWords, null);
   }
 
-  @NotNull
-  public String generateText(Predicate<String> terminator, String prefix) {
+  @Nonnull
+  public String generateText(@Nonnull Predicate<String> terminator, String prefix) {
     reset();
     feed(prefix);
     generate(terminator);
     return getText();
   }
 
-  @NotNull
+  @Nonnull
   public String generateText(int numberOfTokens, String prefix) {
     reset();
     feed(prefix);
@@ -129,11 +136,12 @@ public class TextGenerator {
     return getText();
   }
 
-  public String generate(Predicate<String> fn) {
+  public String generate(@Nonnull Predicate<String> fn) {
     init();
     ArrayList<Integer> theseCodes = new ArrayList<>();
     try {
       for (int wordIndex = 0; wordIndex == 0 || fn.test(codec.decode(theseCodes.toArray(new Integer[]{}))); wordIndex++) {
+        assert nextSelections != null;
         int selected = select(nextSelections);
         if (isVerbose()) {
           if (wordIndex != 0) log(nextSelections, codec, getChoicesToLog());
@@ -155,6 +163,7 @@ public class TextGenerator {
     init();
     try {
       for (int wordIndex = 0; wordIndex < numberOfWords; wordIndex++) {
+        assert nextSelections != null;
         int selected = select(nextSelections);
         if (isVerbose()) {
           if (wordIndex != 0) log(nextSelections, codec, getChoicesToLog());
@@ -169,6 +178,7 @@ public class TextGenerator {
     }
   }
 
+  @Nonnull
   public TextGenerator init() {
     if (nextSelections == null) feed("");
     return this;
@@ -188,19 +198,21 @@ public class TextGenerator {
       nextSelections = getModel().eval(code);
       if (isVerbose()) {
         logger.info(RefString.format("Feed token: '%s'", codec.decode(code)));
+        assert nextSelections != null;
         log(nextSelections, codec, getChoicesToLog());
       }
     }
     return entropy / Math.log(2);
   }
 
+  @Nonnull
   public TextGenerator reset() {
     codes.clear();
     getModel().clear();
     return this;
   }
 
-  protected int select(float[] chosen) {
+  protected int select(@Nonnull float[] chosen) {
     double originalFate = Math.random() * (1);
     double fate = originalFate;
     int j = 0;
@@ -214,7 +226,7 @@ public class TextGenerator {
     return topCandidate;
   }
 
-  protected void log(float[] chosen, GPT2Codec codec, int count) {
+  protected void log(@Nonnull float[] chosen, @Nonnull GPT2Codec codec, int count) {
     Arrays.stream(sortedIndices(chosen, count))
         .forEach(candidate -> logger.info(RefString.format("\t#%d %.4f%% '%s'", candidate, chosen[candidate] * 100, codec.decode(candidate))));
   }

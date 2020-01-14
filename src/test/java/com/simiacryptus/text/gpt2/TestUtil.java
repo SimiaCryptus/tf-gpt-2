@@ -25,6 +25,7 @@ import com.simiacryptus.tensorflow.TFUtil;
 import com.simiacryptus.tensorflow.TensorboardEventWriter;
 import org.tensorflow.framework.GraphDef;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -33,7 +34,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 public class TestUtil {
-  public static void launchTensorboard(File tensorboardDir) throws IOException, URISyntaxException {
+  public static void launchTensorboard(@Nonnull File tensorboardDir) throws IOException, URISyntaxException {
     TFUtil.launchTensorboard(tensorboardDir.getAbsolutePath(), tensorboard -> {
       try {
         JOptionPane.showConfirmDialog(null, "Press OK to close");
@@ -44,14 +45,14 @@ public class TestUtil {
     });
   }
 
-  public static File writeGraph(GraphDef graphDef, File location, String name) throws IOException {
+  public static File writeGraph(@Nonnull GraphDef graphDef, File location, @Nonnull String name) throws IOException {
     TensorboardEventWriter eventWriter = new TensorboardEventWriter(new File(location, name), graphDef);
     eventWriter.write(graphDef);
     eventWriter.close();
     return location;
   }
 
-  public static void open(String prefix, Object model) throws IOException {
+  public static void open(@Nonnull String prefix, Object model) throws IOException {
     File tempFile = File.createTempFile(prefix, ".json");
     FileOutputStream fileOutputStream = new FileOutputStream(tempFile);
     new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT).writeValue(fileOutputStream, model);

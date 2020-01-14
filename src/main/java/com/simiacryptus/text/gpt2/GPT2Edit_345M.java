@@ -23,12 +23,15 @@ import org.tensorflow.framework.AttrValue;
 import org.tensorflow.framework.DataType;
 import org.tensorflow.framework.NodeDef;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.function.Consumer;
 
 public class GPT2Edit_345M extends GraphModifier {
 
+  @Nonnull
   @Override
   public HashSet<String> getDeletes_Init() {
     final HashSet<String> toDelete = new HashSet<>();
@@ -309,8 +312,9 @@ public class GPT2Edit_345M extends GraphModifier {
     return toDelete;
   }
 
+  @Nullable
   @Override
-  public NodeDef.Builder edit(NodeDef.Builder node) {
+  public NodeDef.Builder edit(@Nonnull NodeDef.Builder node) {
 
     if (node.getName().equals("model/Shape_1")) {
       node.putAttr("T", AttrValue.newBuilder().setType(DataType.forNumber(3)).build());
@@ -2336,7 +2340,7 @@ public class GPT2Edit_345M extends GraphModifier {
     return node;
   }
 
-  protected void addNodes(Consumer<NodeDef> add) {
+  protected void addNodes(@Nonnull Consumer<NodeDef> add) {
 
     add.accept(NodeDef.newBuilder()
         .setName("model/h14/attn/c_proj/strided_slice_1/stack")

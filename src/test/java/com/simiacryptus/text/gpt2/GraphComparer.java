@@ -21,12 +21,13 @@ package com.simiacryptus.text.gpt2;
 
 import com.simiacryptus.ref.wrappers.RefString;
 import com.simiacryptus.tensorflow.GraphModel;
-import org.jetbrains.annotations.NotNull;
 import org.tensorflow.framework.AttrValue;
 import org.tensorflow.framework.NodeDef;
 import org.tensorflow.framework.TensorProto;
 import org.tensorflow.framework.TensorShapeProto;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.*;
@@ -39,7 +40,7 @@ class GraphComparer implements Consumer<GraphModel.DeltaRecord> {
   public final ArrayList<String> newNodes = new ArrayList<String>();
   public final Map<String, ArrayList<String>> nodeEdits = new HashMap<>();
 
-  public static String toString(AttrValue value) {
+  public static String toString(@Nonnull AttrValue value) {
     switch (value.getValueCase()) {
       case I:
         return RefString.format("AttrValue.newBuilder().setI(%s).build()", value.getI());
@@ -86,16 +87,16 @@ class GraphComparer implements Consumer<GraphModel.DeltaRecord> {
     }
   }
 
-  @NotNull
-  public static String toString(long[] dims) {
+  @Nonnull
+  public static String toString(@Nonnull long[] dims) {
     return Arrays.stream(dims).mapToObj(size -> Long.toString(size)).reduce((a, b) -> a + ", " + b).orElse("");
   }
 
-  public static long[] dims(TensorShapeProto shape) {
+  public static long[] dims(@Nonnull TensorShapeProto shape) {
     return shape.getDimList().stream().mapToLong(TensorShapeProto.Dim::getSize).toArray();
   }
 
-  public void compare(GraphModel left, GraphModel right) {
+  public void compare(@Nonnull GraphModel left, @Nonnull GraphModel right) {
     left.compare(right).values().stream().forEach(this);
     System.out.println("\n" +
         "  @Override\n" +
@@ -123,7 +124,7 @@ class GraphComparer implements Consumer<GraphModel.DeltaRecord> {
   }
 
   @Override
-  public void accept(GraphModel.DeltaRecord delta) {
+  public void accept(@Nonnull GraphModel.DeltaRecord delta) {
     if (delta.left == null || delta.right == null) {
       if (delta.left == null) {
         GraphModel.GraphNode node = delta.right;
@@ -141,13 +142,15 @@ class GraphComparer implements Consumer<GraphModel.DeltaRecord> {
         nodeDeletes.add(RefString.format("toDelete.add(\"%s\");%n", delta.name));
       }
     } else {
-      final NodeDef leftNode = null == delta.left ? null : delta.left.getNodeDef();
-      final NodeDef rightNode = null == delta.right ? null : delta.right.getNodeDef();
+      final NodeDef leftNode = delta.left.getNodeDef();
+      final NodeDef rightNode = delta.right.getNodeDef();
       if (null != leftNode && null != rightNode) {
         if (!leftNode.getOp().equals(rightNode.getOp())) {
           getBuffer(delta.name).add(RefString.format("node.setOp(\"%s\");", rightNode.getOp()));
         }
       }
+      assert rightNode != null;
+      assert leftNode != null;
       compare(delta, leftNode.getAttrMap(), rightNode.getAttrMap());
       compareInputs(delta,
           delta.left.getInputKeys(),
@@ -155,12 +158,12 @@ class GraphComparer implements Consumer<GraphModel.DeltaRecord> {
     }
   }
 
-  public void compareInputs(GraphModel.DeltaRecord delta, List<String> leftData, List<String> rightData) {
+  public void compareInputs(@Nonnull GraphModel.DeltaRecord delta, @Nullable List<String> leftData, @Nonnull List<String> rightData) {
     if (leftData == null || leftData.size() == 0) {
       getBuffer(delta.name).add(rightData.stream().map(input ->
           RefString.format("node.addInput(\"%s\");", input)
       ).reduce((a, b) -> a + "\n" + b).orElse(""));
-    } else if (rightData == null || rightData.size() == 0) {
+    } else if (rightData.size() == 0) {
       getBuffer(delta.name).add("node.clearInput();");
     } else if (leftData.size() != rightData.size()) {
       if (leftData.size() + 1 == rightData.size() && leftData.equals(rightData.subList(0, leftData.size()))) {
@@ -181,7 +184,7 @@ class GraphComparer implements Consumer<GraphModel.DeltaRecord> {
     }
   }
 
-  private void compare(GraphModel.DeltaRecord delta, Map<String, AttrValue> left, Map<String, AttrValue> right) {
+  private void compare(@Nonnull GraphModel.DeltaRecord delta, @Nonnull Map<String, AttrValue> left, @Nonnull Map<String, AttrValue> right) {
     Stream.concat(
         left.keySet().stream(),
         right.keySet().stream()
@@ -201,7 +204,7 @@ class GraphComparer implements Consumer<GraphModel.DeltaRecord> {
         });
   }
 
-  @NotNull
+  @Nonnull
   private ArrayList<String> getBuffer(String name) {
     return nodeEdits.computeIfAbsent(name, k -> new ArrayList<String>());
   }

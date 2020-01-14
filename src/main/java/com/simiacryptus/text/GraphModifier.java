@@ -23,8 +23,6 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.ProtocolStringList;
 import com.simiacryptus.text.gpt2.GPT2Codec;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tensorflow.*;
@@ -33,6 +31,8 @@ import org.tensorflow.framework.NodeDef;
 import org.tensorflow.framework.TensorProto;
 import org.tensorflow.framework.TensorShapeProto;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
@@ -47,9 +47,10 @@ import static org.tensorflow.framework.DataType.DT_INT32;
 public abstract class GraphModifier {
   protected static final Logger logger = LoggerFactory.getLogger(GPT2Codec.class);
 
+  @Nonnull
   public abstract HashSet<String> getDeletes_Init();
 
-  public static void importGraphDef(Graph graph, GraphDef graphdef) {
+  public static void importGraphDef(@Nonnull Graph graph, @Nonnull GraphDef graphdef) {
     final HashSet<Object> opsPresent = new HashSet<>();
     graph.operations().forEachRemaining(op -> {
       opsPresent.add(op.name());
@@ -161,31 +162,31 @@ public abstract class GraphModifier {
         });
   }
 
-  @NotNull
-  public static ByteBuffer edit(ByteBuffer srcBuffer, Consumer<IntBuffer> fn) {
+  @Nonnull
+  public static ByteBuffer edit(@Nonnull ByteBuffer srcBuffer, @Nonnull Consumer<IntBuffer> fn) {
     final ByteBuffer dstBuffer = copy(srcBuffer);
     final IntBuffer intBuffer = dstBuffer.asIntBuffer();
     fn.accept(intBuffer);
     return dstBuffer;
   }
 
-  @NotNull
-  public static ByteBuffer copy(ByteBuffer srcBuffer) {
+  @Nonnull
+  public static ByteBuffer copy(@Nonnull ByteBuffer srcBuffer) {
     final ByteBuffer byteBuffer = ByteBuffer.allocate(srcBuffer.capacity());
     byteBuffer.put(srcBuffer);
     byteBuffer.clear();
     return byteBuffer;
   }
 
-  @NotNull
-  public static TensorProto tensor1(int[] shape, int... vals) {
+  @Nonnull
+  public static TensorProto tensor1(int[] shape, @Nonnull int... vals) {
     TensorProto.Builder builder = TensorProto.newBuilder().setTensorShape(shape(shape)).setDtype(DT_INT32);
     Arrays.stream(vals).forEach(x -> builder.addIntVal(x));
     return builder.build();
   }
 
-  @NotNull
-  public static TensorProto tensor2(int[] shape, int... vals) {
+  @Nonnull
+  public static TensorProto tensor2(int[] shape, @Nonnull int... vals) {
     TensorProto.Builder builder = TensorProto.newBuilder().setTensorShape(shape(shape));
     byte[] array = new byte[vals.length * 4];
     IntBuffer buffer = ByteBuffer.wrap(array).asIntBuffer();
@@ -194,13 +195,15 @@ public abstract class GraphModifier {
     return builder.build();
   }
 
-  public static TensorShapeProto shape(int... dims) {
+  @Nonnull
+  public static TensorShapeProto shape(@Nonnull int... dims) {
     TensorShapeProto.Builder builder = TensorShapeProto.newBuilder();
     Arrays.stream(dims).mapToObj(v -> TensorShapeProto.Dim.newBuilder().setSize(v).build()).forEach(builder::addDim);
     return builder.build();
   }
 
-  public GraphDef edit(GraphDef src, String prefix, boolean includeOriginal) throws InvalidProtocolBufferException {
+  @Nonnull
+  public GraphDef edit(@Nonnull GraphDef src, String prefix, boolean includeOriginal) throws InvalidProtocolBufferException {
     final GraphDef srcGraphDef = GraphDef.parseFrom(src.toByteArray());
     final GraphDef.Builder destGraphDef = GraphDef.newBuilder();
     final HashSet<String> deletes = getDeletes_Init();
@@ -210,7 +213,7 @@ public abstract class GraphModifier {
       if (deletes.contains(node.getName())) {
         logger.debug("Omit Node: " + node.getName());
       } else {
-        NodeDef.@Nullable Builder nodeBuilder = edit(node.toBuilder());
+        @Nullable NodeDef.Builder nodeBuilder = edit(node.toBuilder());
         if (null != nodeBuilder) {
           logger.debug("Edit Node: " + node.getName());
           destGraphDef.addNode(nodeBuilder.build());
@@ -229,11 +232,13 @@ public abstract class GraphModifier {
     return prefixRewrite(destGraphDef.build(), editedNodes, prefix, includeOriginal);
   }
 
+  @Nullable
   public abstract NodeDef.Builder edit(NodeDef.Builder node);
 
   protected abstract void addNodes(Consumer<NodeDef> add);
 
-  protected GraphDef prefixRewrite(GraphDef graphDef, HashSet<String> editedNodes, String prefix, boolean includeOriginal) {
+  @Nonnull
+  protected GraphDef prefixRewrite(@Nonnull GraphDef graphDef, @Nonnull HashSet<String> editedNodes, String prefix, boolean includeOriginal) {
     while (true) {
       final List<String> newItems = graphDef.getNodeList().stream()
           .filter(nodeDef -> !editedNodes.contains(nodeDef.getName()))

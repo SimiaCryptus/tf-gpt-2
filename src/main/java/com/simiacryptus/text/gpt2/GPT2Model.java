@@ -25,7 +25,6 @@ import com.simiacryptus.text.GraphModifier;
 import com.simiacryptus.text.LanguageCodeModel;
 import com.simiacryptus.text.TextGenerator;
 import org.apache.commons.io.FileUtils;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tensorflow.Graph;
@@ -33,6 +32,7 @@ import org.tensorflow.Session;
 import org.tensorflow.Tensor;
 import org.tensorflow.framework.*;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
@@ -55,10 +55,11 @@ public class GPT2Model implements LanguageCodeModel {
   public Graph graph;
   public Session session;
   protected int history_size = 0;
+  @Nullable
   protected Tensor<Float> tensor_state = null;
   private BiFunction<String, String, Boolean> filterFn = (a, b) -> true;
 
-  public GPT2Model(String name, GraphModifier graphModifier, File file, GPT2Codec codec) {
+  public GPT2Model(String name, GraphModifier graphModifier, @Nonnull File file, GPT2Codec codec) {
     this(name, loadModel(file), graphModifier, codec);
   }
 
@@ -66,7 +67,7 @@ public class GPT2Model implements LanguageCodeModel {
     this(name, graphDef, graphModifier, codec, new Graph());
   }
 
-  public GPT2Model(String name, byte[] graphDef, GraphModifier graphModifier, GPT2Codec codec, Graph graph) {
+  public GPT2Model(String name, byte[] graphDef, GraphModifier graphModifier, GPT2Codec codec, @Nonnull Graph graph) {
     this(name, graphDef, graphModifier, codec, graph, new Session(graph, ConfigProto.newBuilder()
         //.setLogDevicePlacement(true)
 //        .setUsePerSessionThreads(true)
@@ -103,7 +104,7 @@ public class GPT2Model implements LanguageCodeModel {
     return filterFn;
   }
 
-  public static byte[] loadModel(File file) {
+  public static byte[] loadModel(@Nonnull File file) {
     try {
       return FileUtils.readFileToByteArray(file);
     } catch (IOException e) {
@@ -111,14 +112,15 @@ public class GPT2Model implements LanguageCodeModel {
     }
   }
 
-  @NotNull
-  public static Tensor<Float> copy(Tensor<Float> toCopy) {
+  @Nonnull
+  public static Tensor<Float> copy(@Nonnull Tensor<Float> toCopy) {
     FloatBuffer floatBuffer = FloatBuffer.allocate(toCopy.numElements());
     toCopy.writeTo(floatBuffer);
     floatBuffer.flip();
     return Tensor.create(toCopy.shape(), floatBuffer);
   }
 
+  @Nonnull
   @Override
   public LanguageCodeModel copy() {
     GPT2Model copy = new GPT2Model(name, graphDef, graphModifier, this.codec, this.graph, this.session);
@@ -134,12 +136,14 @@ public class GPT2Model implements LanguageCodeModel {
     return copy;
   }
 
-  public float[] logitsToProbabilities(float[] logits) {
+  @Nonnull
+  public float[] logitsToProbabilities(@Nonnull float[] logits) {
     String prefix = codec.decode(code_history.stream().toArray(i -> new Integer[i]));
     int[] sortedIndices = Arrays.stream(TextGenerator.sortedIndices(logits, Integer.MAX_VALUE))
         .filter(item -> {
           if (item == logits.length - 1) return true;
           String thisStr = codec.decode(item);
+          assert getFilterFn() != null;
           return getFilterFn().apply(prefix, thisStr);
         })
         .toArray();
@@ -158,6 +162,7 @@ public class GPT2Model implements LanguageCodeModel {
     @Nullable double[] chosen = Arrays.stream(exp).map(x -> x / sum).toArray();
 
     for (int i = 0; i < logits.length; i++) logits[i] = 0;
+    assert chosen != null;
     IntStream.range(0, chosen.length).forEach(c -> {
       logits[sortedIndices[c]] = (float) chosen[c];
 
@@ -165,6 +170,7 @@ public class GPT2Model implements LanguageCodeModel {
     return logits;
   }
 
+  @Nonnull
   @Override
   public synchronized LanguageCodeModel clear() {
     logger.debug("Reset Language Model State");
@@ -175,6 +181,7 @@ public class GPT2Model implements LanguageCodeModel {
     return this;
   }
 
+  @Nonnull
   @Override
   public synchronized float[] eval(int data_X) {
     logger.debug(RefString.format("Eval %d", data_X));
@@ -209,7 +216,8 @@ public class GPT2Model implements LanguageCodeModel {
     }
   }
 
-  public synchronized float[] eval(String prefix, int... data_X) {
+  @Nonnull
+  public synchronized float[] eval(String prefix, @Nonnull int... data_X) {
     synchronized (session) {
       logger.debug(RefString.format("Eval(%s,%s)", session, Arrays.toString(data_X)));
       Tensor<Integer> input_X = Tensor.create(new long[]{1, data_X.length}, IntBuffer.wrap(data_X));
@@ -243,12 +251,14 @@ public class GPT2Model implements LanguageCodeModel {
     }
   }
 
+  @Nonnull
   @Override
   public LanguageCodeModel setFilterFn(BiFunction<String, String, Boolean> filterFn) {
     this.filterFn = filterFn;
     return this;
   }
 
+  @Nullable
   @Override
   public Tensor<?> state() {
     return this.tensor_state;

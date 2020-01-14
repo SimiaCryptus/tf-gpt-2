@@ -22,11 +22,13 @@ package com.simiacryptus.text.gpt2;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.simiacryptus.ref.lang.RefUtil;
+import com.simiacryptus.ref.wrappers.RefStringBuilder;
 import org.apache.commons.io.FileUtils;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -38,6 +40,7 @@ public class GPT2Codec {
   protected static final Logger logger = LoggerFactory.getLogger(GPT2Codec.class);
 
   protected final TreeMap<String, Integer> encoder;
+  @Nonnull
   protected final TreeMap<Integer, String> decoder;
   private final int vocabSize;
 
@@ -47,11 +50,11 @@ public class GPT2Codec {
     this.decoder = buildDecoder(this.encoder);
   }
 
-  public GPT2Codec(File file, int vocabSize) {
+  public GPT2Codec(@Nonnull File file, int vocabSize) {
     this(GPT2Codec.loadEncoder(file), vocabSize);
   }
 
-  @NotNull
+  @Nonnull
   public static Function<String, String> getCharacterTransformer() {
     Map<Character, Character> byteEncoder = byteEncoder();
     return x -> {
@@ -67,7 +70,8 @@ public class GPT2Codec {
     return vocabSize;
   }
 
-  public static TreeMap<Integer, String> buildDecoder(TreeMap<String, Integer> encoder) {
+  @Nonnull
+  public static TreeMap<Integer, String> buildDecoder(@Nonnull TreeMap<String, Integer> encoder) {
     Stream<Map.Entry<String, Integer>> stream = encoder.entrySet().stream();
     return new TreeMap<>(stream.collect(Collectors.toMap(
         (Map.Entry<String, Integer> e) -> e.getValue(),
@@ -75,7 +79,8 @@ public class GPT2Codec {
     )));
   }
 
-  public static TreeMap<String, Integer> loadEncoder(File file) {
+  @Nonnull
+  public static TreeMap<String, Integer> loadEncoder(@Nonnull File file) {
     try {
       return toMap(FileUtils.readFileToString(file, "UTF-8"), getCharacterTransformer());
     } catch (IOException e) {
@@ -83,12 +88,13 @@ public class GPT2Codec {
     }
   }
 
-  @NotNull
-  public static TreeMap<String, Integer> toMap(String jsonTxt, Function<String, String> keyEncoder) {
+  @Nonnull
+  public static TreeMap<String, Integer> toMap(String jsonTxt, @Nonnull Function<String, String> keyEncoder) {
     JsonObject json = new GsonBuilder().create().fromJson(jsonTxt, JsonObject.class);
     return new TreeMap<>(json.keySet().stream().collect(Collectors.toMap(keyEncoder, x -> json.get(x).getAsInt(), (a, b) -> a)));
   }
 
+  @Nonnull
   public static Map<Character, Character> byteEncoder() {
     try {
       HashMap<Character, Character> characterMap = new HashMap<>();
@@ -110,14 +116,15 @@ public class GPT2Codec {
     }
   }
 
-  public String decode(Integer... msg) {
+  public String decode(@Nonnull Integer... msg) {
     return Arrays.stream(msg).map(i -> decoder.getOrDefault(i, "<Not Found: " + i + ">")).reduce((a, b) -> a + b).orElseGet(() -> "");
   }
 
-  public List<Integer> encode(String msg) {
+  @Nonnull
+  public List<Integer> encode(@Nullable String msg) {
     ArrayList<Integer> list = new ArrayList<>();
     if (null != msg && !msg.isEmpty()) {
-      com.simiacryptus.ref.wrappers.RefStringBuilder stringBuffer = new com.simiacryptus.ref.wrappers.RefStringBuilder(msg);
+      RefStringBuilder stringBuffer = new RefStringBuilder(msg);
       while (stringBuffer.length() > 0) {
         Optional<String> codeString = lookup(stringBuffer.toString());
         if (codeString.isPresent()) {
@@ -132,7 +139,7 @@ public class GPT2Codec {
     return list;
   }
 
-  protected Optional<String> lookup(String searchStr) {
+  protected Optional<String> lookup(@Nullable String searchStr) {
     if (null == searchStr || searchStr.isEmpty()) return Optional.empty();
     String ceilingKey = encoder.ceilingKey(searchStr);
     String floorKey = encoder.floorKey(searchStr);

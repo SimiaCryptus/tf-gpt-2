@@ -25,8 +25,9 @@ import com.simiacryptus.text.TextGenerator;
 import com.simiacryptus.util.Util;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -47,37 +48,38 @@ public class GPT2Util {
       "https://s3-us-west-2.amazonaws.com/simiacryptus/gpt2/");
   private static final TextGenerator prototype = get345M().setVerbose(false);
 
-  @NotNull
+  @Nonnull
   public static TextGenerator get345M() {
     return new TextGenerator(50257, getModel_345M(), getCodec_345M());
   }
 
-  @NotNull
+  @Nonnull
   public static GPT2Codec getCodec_345M() {
     return new GPT2Codec(getEncoderFile_345M(), 50257);
   }
 
-  @NotNull
+  @Nonnull
   public static File getEncoderFile_345M() {
     return loadZippedInternetFile(MODEL_URL_BASE + "encoder_345M.zip", "encoder_345M.json");
   }
 
-  @NotNull
+  @Nonnull
   public static File getGraphFile_345M() {
     return loadRawInternetFile(MODEL_URL_BASE, "345M.pb");
   }
 
-  @NotNull
+  @Nonnull
   public static GPT2Model getModel_345M() {
     return getModel_345M(getGraphFile_345M());
   }
 
+  @Nonnull
   public static TextGenerator getTextGenerator() {
     return prototype.copy();
   }
 
-  public @NotNull
-  static File loadZippedInternetFile(String zipUrl, String pathname) {
+  public @Nonnull
+  static File loadZippedInternetFile(@Nonnull String zipUrl, @Nonnull String pathname) {
     File encoderFile = new File(pathname);
     if (new File(encoderFile.getName()).exists()) {
       encoderFile = new File(encoderFile.getName());
@@ -96,8 +98,8 @@ public class GPT2Util {
     return encoderFile;
   }
 
-  public @NotNull
-  static File loadRawInternetFile(String urlBase, String fileName) {
+  public @Nonnull
+  static File loadRawInternetFile(String urlBase, @Nonnull String fileName) {
     File graphFile = new File(fileName);
     if (new File(graphFile.getName()).exists()) {
       graphFile = new File(graphFile.getName());
@@ -111,18 +113,18 @@ public class GPT2Util {
     return graphFile;
   }
 
-  @NotNull
-  public static GPT2Model getModel_345M(File file) {
+  @Nonnull
+  public static GPT2Model getModel_345M(@Nonnull File file) {
     return getModel_345M("345M", file);
   }
 
-  @NotNull
-  public static GPT2Model getModel_345M(String name, File file) {
+  @Nonnull
+  public static GPT2Model getModel_345M(String name, @Nonnull File file) {
     return new GPT2Model(name, new GPT2Edit_345M(), file, getCodec_345M());
   }
 
-  @NotNull
-  public static TextGenerator getTextGenerator(TextGenerator textGenerator, String characterWhitelist, URI wordlist) throws IOException, NoSuchAlgorithmException, KeyManagementException {
+  @Nonnull
+  public static TextGenerator getTextGenerator(@Nonnull TextGenerator textGenerator, @Nullable String characterWhitelist, @Nullable URI wordlist) throws IOException, NoSuchAlgorithmException, KeyManagementException {
     TreeSet<String> wordList = null == wordlist ? null : new TreeSet<>(
         Arrays.stream(FileUtils.readFileToString(Util.cacheFile(wordlist), "UTF-8").split("\\s+"))
             .map(x -> x.trim().toLowerCase()).collect(Collectors.toSet())
@@ -134,7 +136,6 @@ public class GPT2Util {
       if (null != wordList && !wordList.isEmpty())
         for (int i = 0; i < words.length; i++) {
           String word = words[i].toLowerCase();
-          if (null == word) continue;
           if (word.isEmpty()) continue;
           if (i < words.length - 1 && !wordList.contains(word)) return false;
           else {
@@ -151,19 +152,19 @@ public class GPT2Util {
     return textGenerator;
   }
 
-  @NotNull
+  @Nonnull
   public static TextGenerator getTextGenerator(String... seeds) {
     return getTextGenerator(get345M().setVerbose(false), seeds);
   }
 
-  @NotNull
-  public static TextGenerator getTextGenerator(TextGenerator base, String... seeds) {
+  @Nonnull
+  public static TextGenerator getTextGenerator(@Nonnull TextGenerator base, String... seeds) {
     ArrayList<LanguageCodeModel> languageCodeModels = new ArrayList<>();
     return getTextGenerator(base, languageCodeModels, seeds);
   }
 
-  @NotNull
-  public static TextGenerator getTextGenerator(TextGenerator base, List<LanguageCodeModel> languageCodeModels, String... seeds) {
+  @Nonnull
+  public static TextGenerator getTextGenerator(@Nonnull TextGenerator base, @Nonnull List<LanguageCodeModel> languageCodeModels, @Nonnull String... seeds) {
     base.setModel(new SumModel(Stream.concat(
         Arrays.stream(seeds).map(seed -> {
           TextGenerator copy = base.copy();
@@ -175,7 +176,7 @@ public class GPT2Util {
     return base;
   }
 
-  @NotNull
+  @Nonnull
   protected static TextGenerator getTextGenerator(String characterWhitelist, URI wordlist) throws IOException, NoSuchAlgorithmException, KeyManagementException {
     return getTextGenerator(getTextGenerator(), characterWhitelist, wordlist);
   }

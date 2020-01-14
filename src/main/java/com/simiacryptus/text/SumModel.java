@@ -21,6 +21,7 @@ package com.simiacryptus.text;
 
 import com.simiacryptus.ref.lang.RefUtil;
 
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
@@ -30,11 +31,12 @@ public class SumModel extends ModelWrapper {
     super(children);
   }
 
-  public static void normalize(float[] sums) {
+  public static void normalize(@Nonnull float[] sums) {
     double sum = IntStream.range(0, sums.length).mapToDouble(x -> sums[x]).sum();
     for (int i = 0; i < sums.length; i++) sums[i] /= sum;
   }
 
+  @Nonnull
   @Override
   public float[] eval(int data_X) {
     float[] sums = RefUtil.get(Arrays.stream(children).map(c -> c.eval(data_X)).reduce((a, b) -> {

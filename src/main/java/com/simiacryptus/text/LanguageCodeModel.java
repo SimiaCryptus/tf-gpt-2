@@ -21,18 +21,25 @@ package com.simiacryptus.text;
 
 import org.tensorflow.Tensor;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.function.BiFunction;
 
 public interface LanguageCodeModel {
+  @Nullable
   BiFunction<String, String, Boolean> getFilterFn();
 
+  @Nonnull
   LanguageCodeModel setFilterFn(BiFunction<String, String, Boolean> filterFn);
 
+  @Nonnull
   LanguageCodeModel copy();
 
+  @Nonnull
   LanguageCodeModel clear();
 
   float[] eval(int data_X);
 
+  @Nullable
   Tensor<?> state();
 }

@@ -26,6 +26,7 @@ import org.junit.Test;
 import org.tensorflow.Output;
 import org.tensorflow.TensorFlowException;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Map;
@@ -34,6 +35,7 @@ import static com.simiacryptus.tensorflow.TFUtil.find;
 
 public class DevTests {
 
+  @Nonnull
   public static File modelHome() {
     return new File(System.getProperty("MODEL_HOME", "H:\\SimiaCryptus\\data-science-tools\\gpt-2\\models"));
   }

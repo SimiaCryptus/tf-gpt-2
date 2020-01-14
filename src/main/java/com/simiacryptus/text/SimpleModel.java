@@ -22,6 +22,8 @@ package com.simiacryptus.text;
 import com.simiacryptus.text.gpt2.GPT2Codec;
 import org.tensorflow.Tensor;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -30,18 +32,21 @@ import java.util.stream.Collectors;
 
 public class SimpleModel implements LanguageCodeModel {
 
+  @Nonnull
   private final float[] result;
 
-  public SimpleModel(float... result) {
+  public SimpleModel(@Nonnull float... result) {
     this.result = Arrays.copyOf(result, result.length);
   }
 
+  @Nullable
   @Override
   public BiFunction<String, String, Boolean> getFilterFn() {
     return null;
   }
 
-  public static SimpleModel build(GPT2Codec codec, String text) {
+  @Nonnull
+  public static SimpleModel build(@Nonnull GPT2Codec codec, String text) {
     List<Integer> encode = codec.encode(text);
     Map<Integer, Long> counts = encode.stream().collect(Collectors.groupingBy(x -> x, Collectors.counting()));
     float[] result = new float[codec.getVocabSize()];
@@ -51,31 +56,37 @@ public class SimpleModel implements LanguageCodeModel {
     return new SimpleModel(result);
   }
 
+  @Nonnull
   @Override
   public LanguageCodeModel copy() {
     return new SimpleModel(result);
   }
 
+  @Nonnull
   @Override
   public LanguageCodeModel clear() {
     return this;
   }
 
+  @Nonnull
   @Override
   public float[] eval(int data_X) {
     return Arrays.copyOf(result, result.length);
   }
 
+  @Nonnull
   @Override
   public LanguageCodeModel setFilterFn(BiFunction<String, String, Boolean> filterFn) {
     return this;
   }
 
+  @Nullable
   @Override
   public Tensor<?> state() {
     return null;
   }
 
+  @Nonnull
   public LanguageCodeModel setTemperature(double temperature) {
     return this;
   }

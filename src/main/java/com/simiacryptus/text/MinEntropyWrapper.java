@@ -23,6 +23,7 @@ import com.simiacryptus.ref.wrappers.RefString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.DoubleStream;
@@ -46,20 +47,21 @@ public class MinEntropyWrapper extends ModelWrapper {
     this.value = value;
   }
 
-  public static double entropy(float[] floats) {
+  public static double entropy(@Nonnull float[] floats) {
     return IntStream.range(0, floats.length).mapToDouble(i -> {
       float p = floats[i];
       return p <= 0 ? 0 : -p * Math.log(p);
     }).sum() / Math.log(2);
   }
 
-  public static float[] powCopy(float[] floats, double value) {
+  @Nonnull
+  public static float[] powCopy(@Nonnull float[] floats, double value) {
     float[] copy = Arrays.copyOf(floats, floats.length);
     pow(copy, value);
     return copy;
   }
 
-  public static void pow(float[] floats, double value) {
+  public static void pow(@Nonnull float[] floats, double value) {
     for (int i = 0; i < floats.length; i++) {
       floats[i] = (float) Math.pow(floats[i], value);
     }

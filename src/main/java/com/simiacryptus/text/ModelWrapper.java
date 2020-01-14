@@ -21,6 +21,7 @@ package com.simiacryptus.text;
 
 import org.tensorflow.Tensor;
 
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.function.BiFunction;
 
@@ -36,6 +37,7 @@ public abstract class ModelWrapper implements LanguageCodeModel {
     return children[0].getFilterFn();
   }
 
+  @Nonnull
   @Override
   public LanguageCodeModel copy() {
     return new SumModel(Arrays.stream(children)
@@ -43,6 +45,7 @@ public abstract class ModelWrapper implements LanguageCodeModel {
         .toArray(i -> new LanguageCodeModel[i]));
   }
 
+  @Nonnull
   @Override
   public LanguageCodeModel clear() {
     for (LanguageCodeModel child : children) {
@@ -54,6 +57,7 @@ public abstract class ModelWrapper implements LanguageCodeModel {
   @Override
   public abstract float[] eval(int data_X);
 
+  @Nonnull
   @Override
   public LanguageCodeModel setFilterFn(BiFunction<String, String, Boolean> filterFn) {
     for (LanguageCodeModel child : children) {
