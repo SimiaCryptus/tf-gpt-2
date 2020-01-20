@@ -150,10 +150,9 @@ public class GPT2Model implements LanguageCodeModel {
     double[] input = IntStream.range(0, sortedIndices.length).mapToDouble(c -> logits[sortedIndices[c]]).toArray();
     assert 1 < input.length : "input.length() = " + input.length;
 
-    @Nullable final double[] exp;
     final DoubleSummaryStatistics summaryStatistics = DoubleStream.of(input).filter(x -> Double.isFinite(x)).summaryStatistics();
     final double max = summaryStatistics.getMax();
-    exp = Arrays.stream(input).map(x -> {
+    @Nullable final double[] exp = Arrays.stream(input).map(x -> {
       double xx = Math.exp(x - max);
       return Double.isFinite(xx) ? xx : 0;
     }).toArray();
@@ -165,7 +164,6 @@ public class GPT2Model implements LanguageCodeModel {
     assert chosen != null;
     IntStream.range(0, chosen.length).forEach(c -> {
       logits[sortedIndices[c]] = (float) chosen[c];
-
     });
     return logits;
   }

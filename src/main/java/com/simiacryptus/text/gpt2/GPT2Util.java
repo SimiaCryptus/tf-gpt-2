@@ -93,7 +93,6 @@ public class GPT2Util {
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
-
     }
     return encoderFile;
   }

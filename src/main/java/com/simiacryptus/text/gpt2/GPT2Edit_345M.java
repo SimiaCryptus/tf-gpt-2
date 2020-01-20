@@ -344,11 +344,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h0/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h0/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h0/attn/range")) {
       node.setInput(1, "model/h0/attn/strided_slice_7");
     } else if (node.getName().equals("model/h0/attn/range_1")) {
@@ -356,11 +354,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h0/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h0/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h0/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -374,15 +370,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h0/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h0/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h0/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h0/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -396,15 +389,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h0/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h0/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h0/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h0/attn/sub")) {
       node.setInput(1, "model/h0/attn/strided_slice_8");
     } else if (node.getName().equals("model/h1/attn/GreaterEqual")) {
@@ -427,11 +417,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h1/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h1/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h1/attn/range")) {
       node.setInput(1, "model/h1/attn/strided_slice_7");
     } else if (node.getName().equals("model/h1/attn/range_1")) {
@@ -439,11 +427,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h1/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h1/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h1/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -457,15 +443,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h1/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h1/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h1/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h1/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -479,15 +462,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h1/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h1/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h1/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h1/attn/sub")) {
       node.setInput(1, "model/h1/attn/strided_slice_8");
     } else if (node.getName().equals("model/h10/attn/GreaterEqual")) {
@@ -510,11 +490,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h10/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h10/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h10/attn/range")) {
       node.setInput(1, "model/h10/attn/strided_slice_7");
     } else if (node.getName().equals("model/h10/attn/range_1")) {
@@ -522,11 +500,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h10/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h10/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h10/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -540,15 +516,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h10/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h10/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h10/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h10/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -562,15 +535,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h10/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h10/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h10/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h10/attn/sub")) {
       node.setInput(1, "model/h10/attn/strided_slice_8");
     } else if (node.getName().equals("model/h11/attn/GreaterEqual")) {
@@ -593,11 +563,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h11/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h11/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h11/attn/range")) {
       node.setInput(1, "model/h11/attn/strided_slice_7");
     } else if (node.getName().equals("model/h11/attn/range_1")) {
@@ -605,11 +573,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h11/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h11/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h11/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -623,15 +589,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h11/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h11/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h11/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h11/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -645,15 +608,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h11/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h11/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h11/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h11/attn/sub")) {
       node.setInput(1, "model/h11/attn/strided_slice_8");
     } else if (node.getName().equals("model/h12/attn/GreaterEqual")) {
@@ -676,11 +636,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h12/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h12/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h12/attn/range")) {
       node.setInput(1, "model/h12/attn/strided_slice_7");
     } else if (node.getName().equals("model/h12/attn/range_1")) {
@@ -688,11 +646,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h12/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h12/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h12/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -706,15 +662,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h12/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h12/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h12/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h12/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -728,15 +681,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h12/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h12/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h12/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h12/attn/sub")) {
       node.setInput(1, "model/h12/attn/strided_slice_8");
     } else if (node.getName().equals("model/h13/attn/GreaterEqual")) {
@@ -759,11 +709,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h13/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h13/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h13/attn/range")) {
       node.setInput(1, "model/h13/attn/strided_slice_7");
     } else if (node.getName().equals("model/h13/attn/range_1")) {
@@ -771,11 +719,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h13/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h13/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h13/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -789,15 +735,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h13/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h13/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h13/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h13/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -811,15 +754,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h13/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h13/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h13/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h13/attn/sub")) {
       node.setInput(1, "model/h13/attn/strided_slice_8");
     } else if (node.getName().equals("model/h14/attn/GreaterEqual")) {
@@ -842,11 +782,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h14/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h14/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h14/attn/range")) {
       node.setInput(1, "model/h14/attn/strided_slice_7");
     } else if (node.getName().equals("model/h14/attn/range_1")) {
@@ -854,11 +792,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h14/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h14/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h14/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -872,15 +808,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h14/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h14/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h14/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h14/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -894,15 +827,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h14/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h14/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h14/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h14/attn/sub")) {
       node.setInput(1, "model/h14/attn/strided_slice_8");
     } else if (node.getName().equals("model/h15/attn/GreaterEqual")) {
@@ -925,11 +855,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h15/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h15/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h15/attn/range")) {
       node.setInput(1, "model/h15/attn/strided_slice_7");
     } else if (node.getName().equals("model/h15/attn/range_1")) {
@@ -937,11 +865,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h15/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h15/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h15/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -955,15 +881,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h15/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h15/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h15/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h15/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -977,15 +900,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h15/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h15/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h15/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h15/attn/sub")) {
       node.setInput(1, "model/h15/attn/strided_slice_8");
     } else if (node.getName().equals("model/h16/attn/GreaterEqual")) {
@@ -1008,11 +928,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h16/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h16/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h16/attn/range")) {
       node.setInput(1, "model/h16/attn/strided_slice_7");
     } else if (node.getName().equals("model/h16/attn/range_1")) {
@@ -1020,11 +938,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h16/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h16/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h16/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -1038,15 +954,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h16/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h16/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h16/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h16/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -1060,15 +973,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h16/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h16/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h16/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h16/attn/sub")) {
       node.setInput(1, "model/h16/attn/strided_slice_8");
     } else if (node.getName().equals("model/h17/attn/GreaterEqual")) {
@@ -1091,11 +1001,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h17/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h17/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h17/attn/range")) {
       node.setInput(1, "model/h17/attn/strided_slice_7");
     } else if (node.getName().equals("model/h17/attn/range_1")) {
@@ -1103,11 +1011,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h17/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h17/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h17/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -1121,15 +1027,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h17/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h17/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h17/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h17/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -1143,15 +1046,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h17/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h17/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h17/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h17/attn/sub")) {
       node.setInput(1, "model/h17/attn/strided_slice_8");
     } else if (node.getName().equals("model/h18/attn/GreaterEqual")) {
@@ -1174,11 +1074,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h18/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h18/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h18/attn/range")) {
       node.setInput(1, "model/h18/attn/strided_slice_7");
     } else if (node.getName().equals("model/h18/attn/range_1")) {
@@ -1186,11 +1084,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h18/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h18/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h18/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -1204,15 +1100,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h18/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h18/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h18/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h18/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -1226,15 +1119,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h18/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h18/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h18/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h18/attn/sub")) {
       node.setInput(1, "model/h18/attn/strided_slice_8");
     } else if (node.getName().equals("model/h19/attn/GreaterEqual")) {
@@ -1257,11 +1147,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h19/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h19/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h19/attn/range")) {
       node.setInput(1, "model/h19/attn/strided_slice_7");
     } else if (node.getName().equals("model/h19/attn/range_1")) {
@@ -1269,11 +1157,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h19/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h19/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h19/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -1287,15 +1173,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h19/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h19/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h19/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h19/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -1309,15 +1192,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h19/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h19/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h19/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h19/attn/sub")) {
       node.setInput(1, "model/h19/attn/strided_slice_8");
     } else if (node.getName().equals("model/h2/attn/GreaterEqual")) {
@@ -1340,11 +1220,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h2/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h2/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h2/attn/range")) {
       node.setInput(1, "model/h2/attn/strided_slice_7");
     } else if (node.getName().equals("model/h2/attn/range_1")) {
@@ -1352,11 +1230,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h2/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h2/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h2/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -1370,15 +1246,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h2/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h2/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h2/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h2/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -1392,15 +1265,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h2/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h2/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h2/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h2/attn/sub")) {
       node.setInput(1, "model/h2/attn/strided_slice_8");
     } else if (node.getName().equals("model/h20/attn/GreaterEqual")) {
@@ -1423,11 +1293,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h20/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h20/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h20/attn/range")) {
       node.setInput(1, "model/h20/attn/strided_slice_7");
     } else if (node.getName().equals("model/h20/attn/range_1")) {
@@ -1435,11 +1303,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h20/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h20/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h20/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -1453,15 +1319,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h20/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h20/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h20/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h20/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -1475,15 +1338,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h20/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h20/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h20/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h20/attn/sub")) {
       node.setInput(1, "model/h20/attn/strided_slice_8");
     } else if (node.getName().equals("model/h21/attn/GreaterEqual")) {
@@ -1506,11 +1366,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h21/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h21/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h21/attn/range")) {
       node.setInput(1, "model/h21/attn/strided_slice_7");
     } else if (node.getName().equals("model/h21/attn/range_1")) {
@@ -1518,11 +1376,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h21/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h21/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h21/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -1536,15 +1392,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h21/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h21/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h21/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h21/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -1558,15 +1411,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h21/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h21/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h21/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h21/attn/sub")) {
       node.setInput(1, "model/h21/attn/strided_slice_8");
     } else if (node.getName().equals("model/h22/attn/GreaterEqual")) {
@@ -1589,11 +1439,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h22/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h22/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h22/attn/range")) {
       node.setInput(1, "model/h22/attn/strided_slice_7");
     } else if (node.getName().equals("model/h22/attn/range_1")) {
@@ -1601,11 +1449,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h22/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h22/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h22/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -1619,15 +1465,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h22/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h22/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h22/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h22/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -1641,15 +1484,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h22/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h22/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h22/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h22/attn/sub")) {
       node.setInput(1, "model/h22/attn/strided_slice_8");
     } else if (node.getName().equals("model/h23/attn/GreaterEqual")) {
@@ -1672,11 +1512,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h23/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h23/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h23/attn/range")) {
       node.setInput(1, "model/h23/attn/strided_slice_7");
     } else if (node.getName().equals("model/h23/attn/range_1")) {
@@ -1684,11 +1522,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h23/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h23/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h23/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -1702,15 +1538,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h23/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h23/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h23/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h23/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -1724,15 +1557,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h23/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h23/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h23/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h23/attn/sub")) {
       node.setInput(1, "model/h23/attn/strided_slice_8");
     } else if (node.getName().equals("model/h3/attn/GreaterEqual")) {
@@ -1755,11 +1585,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h3/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h3/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h3/attn/range")) {
       node.setInput(1, "model/h3/attn/strided_slice_7");
     } else if (node.getName().equals("model/h3/attn/range_1")) {
@@ -1767,11 +1595,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h3/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h3/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h3/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -1785,15 +1611,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h3/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h3/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h3/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h3/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -1807,15 +1630,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h3/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h3/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h3/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h3/attn/sub")) {
       node.setInput(1, "model/h3/attn/strided_slice_8");
     } else if (node.getName().equals("model/h4/attn/GreaterEqual")) {
@@ -1838,11 +1658,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h4/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h4/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h4/attn/range")) {
       node.setInput(1, "model/h4/attn/strided_slice_7");
     } else if (node.getName().equals("model/h4/attn/range_1")) {
@@ -1850,11 +1668,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h4/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h4/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h4/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -1868,15 +1684,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h4/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h4/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h4/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h4/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -1890,15 +1703,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h4/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h4/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h4/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h4/attn/sub")) {
       node.setInput(1, "model/h4/attn/strided_slice_8");
     } else if (node.getName().equals("model/h5/attn/GreaterEqual")) {
@@ -1921,11 +1731,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h5/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h5/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h5/attn/range")) {
       node.setInput(1, "model/h5/attn/strided_slice_7");
     } else if (node.getName().equals("model/h5/attn/range_1")) {
@@ -1933,11 +1741,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h5/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h5/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h5/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -1951,15 +1757,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h5/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h5/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h5/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h5/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -1973,15 +1776,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h5/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h5/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h5/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h5/attn/sub")) {
       node.setInput(1, "model/h5/attn/strided_slice_8");
     } else if (node.getName().equals("model/h6/attn/GreaterEqual")) {
@@ -2004,11 +1804,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h6/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h6/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h6/attn/range")) {
       node.setInput(1, "model/h6/attn/strided_slice_7");
     } else if (node.getName().equals("model/h6/attn/range_1")) {
@@ -2016,11 +1814,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h6/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h6/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h6/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -2034,15 +1830,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h6/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h6/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h6/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h6/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -2056,15 +1849,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h6/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h6/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h6/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h6/attn/sub")) {
       node.setInput(1, "model/h6/attn/strided_slice_8");
     } else if (node.getName().equals("model/h7/attn/GreaterEqual")) {
@@ -2087,11 +1877,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h7/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h7/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h7/attn/range")) {
       node.setInput(1, "model/h7/attn/strided_slice_7");
     } else if (node.getName().equals("model/h7/attn/range_1")) {
@@ -2099,11 +1887,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h7/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h7/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h7/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -2117,15 +1903,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h7/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h7/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h7/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h7/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -2139,15 +1922,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h7/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h7/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h7/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h7/attn/sub")) {
       node.setInput(1, "model/h7/attn/strided_slice_8");
     } else if (node.getName().equals("model/h8/attn/GreaterEqual")) {
@@ -2170,11 +1950,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h8/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h8/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h8/attn/range")) {
       node.setInput(1, "model/h8/attn/strided_slice_7");
     } else if (node.getName().equals("model/h8/attn/range_1")) {
@@ -2182,11 +1960,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h8/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h8/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h8/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -2200,15 +1976,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h8/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h8/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h8/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h8/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -2222,15 +1995,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h8/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h8/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h8/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h8/attn/sub")) {
       node.setInput(1, "model/h8/attn/strided_slice_8");
     } else if (node.getName().equals("model/h9/attn/GreaterEqual")) {
@@ -2253,11 +2023,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h9/attn/c_proj/strided_slice/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/h9/attn/c_proj/strided_slice/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h9/attn/range")) {
       node.setInput(1, "model/h9/attn/strided_slice_7");
     } else if (node.getName().equals("model/h9/attn/range_1")) {
@@ -2265,11 +2033,9 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h9/attn/strided_slice_7/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else if (node.getName().equals("model/h9/attn/strided_slice_7/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h9/attn/strided_slice_8")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(0).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(1).build());
@@ -2283,15 +2049,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h9/attn/strided_slice_8/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 3)).build());
-
     } else if (node.getName().equals("model/h9/attn/strided_slice_8/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 4)).build());
-
     } else if (node.getName().equals("model/h9/attn/strided_slice_8/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/h9/attn/strided_slice_9")) {
       node.putAttr("end_mask", AttrValue.newBuilder().setI(1).build());
       node.putAttr("shrink_axis_mask", AttrValue.newBuilder().setI(0).build());
@@ -2305,15 +2068,12 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/h9/attn/strided_slice_9/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h9/attn/strided_slice_9/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 0, 0)).build());
-
     } else if (node.getName().equals("model/h9/attn/strided_slice_9/stack_2")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor2(new int[]{2}, 1, 1)).build());
-
     } else if (node.getName().equals("model/h9/attn/sub")) {
       node.setInput(1, "model/h9/attn/strided_slice_8");
     } else if (node.getName().equals("model/range")) {
@@ -2321,19 +2081,15 @@ public class GPT2Edit_345M extends GraphModifier {
     } else if (node.getName().equals("model/strided_slice_1/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 0)).build());
-
     } else if (node.getName().equals("model/strided_slice_1/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/strided_slice_2/stack")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 1)).build());
-
     } else if (node.getName().equals("model/strided_slice_2/stack_1")) {
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
       node.putAttr("value", AttrValue.newBuilder().setTensor(tensor1(new int[]{1}, 2)).build());
-
     } else {
       return null;
     }
