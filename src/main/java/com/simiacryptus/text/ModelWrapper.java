@@ -41,7 +41,7 @@ public abstract class ModelWrapper implements LanguageCodeModel {
   @Override
   public LanguageCodeModel copy() {
     return new SumModel(Arrays.stream(children)
-        .map(LanguageCodeModel::copy)
+        .map(languageCodeModel -> languageCodeModel.copy())
         .toArray(i -> new LanguageCodeModel[i]));
   }
 

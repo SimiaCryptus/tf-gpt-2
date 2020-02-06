@@ -51,7 +51,7 @@ public class SimpleModel implements LanguageCodeModel {
     Map<Integer, Long> counts = encode.stream().collect(Collectors.groupingBy(x -> x, Collectors.counting()));
     float[] result = new float[codec.getVocabSize()];
     for (int i = 0; i < result.length; i++) {
-      result[i] = ((float) counts.getOrDefault(i, 0l)) / encode.size();
+      result[i] = (float) counts.getOrDefault(i, 0l) / encode.size();
     }
     return new SimpleModel(result);
   }

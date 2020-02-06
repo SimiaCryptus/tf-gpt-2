@@ -198,7 +198,7 @@ public abstract class GraphModifier {
   @Nonnull
   public static TensorShapeProto shape(@Nonnull int... dims) {
     TensorShapeProto.Builder builder = TensorShapeProto.newBuilder();
-    Arrays.stream(dims).mapToObj(v -> TensorShapeProto.Dim.newBuilder().setSize(v).build()).forEach(builder::addDim);
+    Arrays.stream(dims).mapToObj(v -> TensorShapeProto.Dim.newBuilder().setSize(v).build()).forEach(value -> builder.addDim(value));
     return builder.build();
   }
 

@@ -66,7 +66,7 @@ class GraphComparer implements Consumer<GraphModel.DeltaRecord> {
               IntBuffer intBuffer = tensor.getTensorContent().asReadOnlyByteBuffer().asIntBuffer();
               int[] dst = new int[intBuffer.remaining()];
               intBuffer.get(dst);
-              String elements = Arrays.stream(dst).map(Integer::reverseBytes).mapToObj(Integer::toString).reduce((a, b) -> a + ", " + b).orElse("");
+              String elements = Arrays.stream(dst).map(i1 -> Integer.reverseBytes(i1)).mapToObj(i -> Integer.toString(i)).reduce((a, b) -> a + ", " + b).orElse("");
               return RefString.format("AttrValue.newBuilder().setTensor(tensor2(new int[]{ %s }, new int[] { %s })).build()", shapeElements, elements);
             });
           }
@@ -78,7 +78,7 @@ class GraphComparer implements Consumer<GraphModel.DeltaRecord> {
               FloatBuffer intBuffer = tensor.getTensorContent().asReadOnlyByteBuffer().asFloatBuffer();
               float[] dst = new float[intBuffer.remaining()];
               intBuffer.get(dst);
-              String elements = IntStream.range(0, dst.length).mapToDouble(i -> dst[i]).mapToObj(Double::toString).reduce((a, b) -> a + ", " + b).orElse("");
+              String elements = IntStream.range(0, dst.length).mapToDouble(i -> dst[i]).mapToObj(d -> Double.toString(d)).reduce((a, b) -> a + ", " + b).orElse("");
               return RefString.format("AttrValue.newBuilder().setTensor(tensor2(new int[]{ %s }, new float[]{ %s })).build()", shapeElements, elements);
             });
         }
@@ -93,7 +93,7 @@ class GraphComparer implements Consumer<GraphModel.DeltaRecord> {
   }
 
   public static long[] dims(@Nonnull TensorShapeProto shape) {
-    return shape.getDimList().stream().mapToLong(TensorShapeProto.Dim::getSize).toArray();
+    return shape.getDimList().stream().mapToLong(dim -> dim.getSize()).toArray();
   }
 
   public void compare(@Nonnull GraphModel left, @Nonnull GraphModel right) {
@@ -102,12 +102,12 @@ class GraphComparer implements Consumer<GraphModel.DeltaRecord> {
         "  @Override\n" +
         "  public HashSet<String> getDeletes_Init() {\n" +
         "    final HashSet<String> toDelete = new HashSet<>();\n" +
-        "\n" + this.nodeDeletes.stream().map(String::trim).reduce((a, b) -> a + "\n" + b).orElse("") +
+        "\n" + this.nodeDeletes.stream().map(s2 -> s2.trim()).reduce((a, b) -> a + "\n" + b).orElse("") +
         "    return toDelete;\n" +
         "  }\n" +
         "\n" +
         "  protected void addNodes(Consumer<NodeDef> add) {\n" +
-        "\n" + this.newNodes.stream().map(String::trim).reduce((a, b) -> a + "\n" + b).orElse("") +
+        "\n" + this.newNodes.stream().map(s1 -> s1.trim()).reduce((a, b) -> a + "\n" + b).orElse("") +
         "  }\n" +
         "\n" +
         "  @Override\n" +
@@ -115,7 +115,7 @@ class GraphComparer implements Consumer<GraphModel.DeltaRecord> {
         "\n" + nodeEdits.entrySet().stream().sorted(Comparator.comparing(x -> x.getKey())).map(e ->
         RefString.format("if(node.getName().equals(\"%s\")) {\n%s\n}", e.getKey(),
             e.getValue().stream().map(x -> "\t" + x).reduce((a, b) -> a + "\n" + b).orElse("")
-        )).map(String::trim).reduce((a, b) -> a + "\nelse " + b).orElse("") +
+        )).map(s -> s.trim()).reduce((a, b) -> a + "\nelse " + b).orElse("") +
         "     else {\n" +
         "      return null;\n" +
         "    }\n" +

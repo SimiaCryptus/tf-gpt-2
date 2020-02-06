@@ -192,7 +192,7 @@ public class TextGenerator {
     for (Integer code : codeList) {
       if (null != nextSelections) {
         float p = nextSelections[code];
-        entropy += (p != 0) ? -Math.log(p) : Math.log(getVocabularySize());
+        entropy += p != 0 ? -Math.log(p) : Math.log(getVocabularySize());
       }
       codes.add(code);
       nextSelections = getModel().eval(code);
@@ -213,11 +213,11 @@ public class TextGenerator {
   }
 
   protected int select(@Nonnull float[] chosen) {
-    double originalFate = Math.random() * (1);
+    double originalFate = Math.random() * 1;
     double fate = originalFate;
     int j = 0;
     int[] topCandidates = sortedIndices(chosen, chosen.length);
-    while (j < topCandidates.length && (fate > chosen[topCandidates[j]])) {
+    while (j < topCandidates.length && fate > chosen[topCandidates[j]]) {
       int topCandidate = topCandidates[j++];
       fate -= chosen[topCandidate];
     }

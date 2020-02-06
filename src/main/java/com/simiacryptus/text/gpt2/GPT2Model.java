@@ -226,7 +226,7 @@ public class GPT2Model implements LanguageCodeModel {
       final Tensor<Float> prevState = this.tensor_state;
       runner = runner
           .fetch(prefix + "output/strided_slice_1")
-          .fetch((0 == history_size) ? (prefix + "model/stack") : (prefix + "output/concat"));
+          .fetch(0 == history_size ? prefix + "model/stack" : prefix + "output/concat");
       List<Tensor<?>> run = runner.run();
       Tensor<Float> tensor_next = run.get(0).expect(Float.class);
       final Tensor<Float> outputState = run.get(1).expect(Float.class); // reshape(shape_state, run.get(1).expect(Float.class));
