@@ -20,7 +20,7 @@
 package com.simiacryptus.text.gpt2;
 
 import com.simiacryptus.text.TextGenerator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.tensorflow.framework.GraphDef;
 
 import java.io.File;

@@ -22,7 +22,8 @@ package com.simiacryptus.text.gpt2;
 import com.simiacryptus.ref.lang.RefUtil;
 import com.simiacryptus.tensorflow.GraphModel;
 import com.simiacryptus.tensorflow.TFUtil;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.tensorflow.Output;
 import org.tensorflow.TensorFlowException;
 
@@ -70,23 +71,25 @@ public class DevTests {
     });
   }
 
-  @Test(expected = TensorFlowException.class)
+  @Test
   public void addGradient() throws Exception {
-    try {
-      byte[] originalGraphDef = GPT2Model.loadModel(new File(modelHome(), "345M" + ".pb"));
-      byte[] newGraphDef = TFUtil.editGraph(originalGraphDef, graph -> {
-        graph.addGradients("gradient_", new Output[]{
-            find(graph, "model/Reshape_1").output(0),
-            find(graph, "model/stack").output(0)
-        }, new Output[]{
-            find(graph, "input_past").output(0)
-        }, null);
-      });
-      System.out.println("GPT2Model: " + TFUtil.toJson(new GraphModel(newGraphDef)));
-    } catch (Throwable e) {
-      e.printStackTrace();
-      throw e;
-    }
+    Assertions.assertThrows(TensorFlowException.class, () -> {
+      try {
+        byte[] originalGraphDef = GPT2Model.loadModel(new File(modelHome(), "345M" + ".pb"));
+        byte[] newGraphDef = TFUtil.editGraph(originalGraphDef, graph -> {
+          graph.addGradients("gradient_", new Output[]{
+              find(graph, "model/Reshape_1").output(0),
+              find(graph, "model/stack").output(0)
+          }, new Output[]{
+              find(graph, "input_past").output(0)
+          }, null);
+        });
+        System.out.println("GPT2Model: " + TFUtil.toJson(new GraphModel(newGraphDef)));
+      } catch (Throwable e) {
+        e.printStackTrace();
+        throw e;
+      }
+    });
   }
 
   @Test
