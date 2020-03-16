@@ -87,7 +87,7 @@ public class SimpleModel implements LanguageCodeModel {
   }
 
   @Nonnull
-  public LanguageCodeModel setTemperature(double temperature) {
+  public LanguageCodeModel setTemperature() {
     return this;
   }
 
