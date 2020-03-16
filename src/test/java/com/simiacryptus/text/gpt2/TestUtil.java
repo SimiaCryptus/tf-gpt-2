@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.simiacryptus.tensorflow.TFUtil;
 import com.simiacryptus.tensorflow.TensorboardEventWriter;
+import com.simiacryptus.util.Util;
 import org.tensorflow.framework.GraphDef;
 
 import javax.annotation.Nonnull;
@@ -40,7 +41,7 @@ public class TestUtil {
         JOptionPane.showConfirmDialog(null, "Press OK to close");
         tensorboard.destroyForcibly();
       } catch (Exception e) {
-        throw new RuntimeException(e);
+        throw Util.throwException(e);
       }
     });
   }

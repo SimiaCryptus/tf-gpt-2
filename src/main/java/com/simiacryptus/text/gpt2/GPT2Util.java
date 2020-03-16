@@ -91,7 +91,7 @@ public class GPT2Util {
           FileUtils.writeByteArrayToFile(encoderFile, graphDefBytes);
         }
       } catch (Exception e) {
-        throw new RuntimeException(e);
+        throw Util.throwException(e);
       }
     }
     return encoderFile;
@@ -106,7 +106,7 @@ public class GPT2Util {
       try {
         graphFile = Util.cacheFile(new URI(urlBase + fileName));
       } catch (Exception e) {
-        throw new RuntimeException(e);
+        throw Util.throwException(e);
       }
     }
     return graphFile;

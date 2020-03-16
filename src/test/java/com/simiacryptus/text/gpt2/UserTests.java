@@ -20,6 +20,7 @@
 package com.simiacryptus.text.gpt2;
 
 import com.simiacryptus.text.TextGenerator;
+import com.simiacryptus.util.Util;
 import org.junit.jupiter.api.Test;
 import org.tensorflow.framework.GraphDef;
 
@@ -42,9 +43,9 @@ public class UserTests {
       File graphFile = GPT2Util.getGraphFile_345M();
       TestUtil.launchTensorboard(TestUtil.writeGraph(GraphDef.parseFrom(GPT2Model.loadModel(graphFile)), location, id));
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw Util.throwException(e);
     } catch (URISyntaxException e) {
-      throw new RuntimeException(e);
+      throw Util.throwException(e);
     }
   }
 

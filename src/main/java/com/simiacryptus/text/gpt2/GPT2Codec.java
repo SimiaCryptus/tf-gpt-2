@@ -23,6 +23,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.simiacryptus.ref.lang.RefUtil;
 import com.simiacryptus.ref.wrappers.RefStringBuilder;
+import com.simiacryptus.util.Util;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,7 +85,7 @@ public class GPT2Codec {
     try {
       return toMap(FileUtils.readFileToString(file, "UTF-8"), getCharacterTransformer());
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw Util.throwException(e);
     }
   }
 
@@ -112,7 +113,7 @@ public class GPT2Codec {
       }
       return characterMap;
     } catch (Throwable e) {
-      throw new RuntimeException(e);
+      throw Util.throwException(e);
     }
   }
 

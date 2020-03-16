@@ -24,6 +24,7 @@ import com.simiacryptus.ref.wrappers.RefString;
 import com.simiacryptus.text.GraphModifier;
 import com.simiacryptus.text.LanguageCodeModel;
 import com.simiacryptus.text.TextGenerator;
+import com.simiacryptus.util.Util;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,7 +109,7 @@ public class GPT2Model implements LanguageCodeModel {
     try {
       return FileUtils.readFileToByteArray(file);
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw Util.throwException(e);
     }
   }
 
@@ -210,7 +211,7 @@ public class GPT2Model implements LanguageCodeModel {
       }
       return eval;
     } catch (InvalidProtocolBufferException e) {
-      throw new RuntimeException(e);
+      throw Util.throwException(e);
     }
   }
 
