@@ -30,7 +30,7 @@
 
     <artifactId>tf-gpt-2</artifactId>
     <description>GPT-2 Text Prediction via Tensorflow Java API</description>
-    <url>https://simiacryptus.github.io/${github.project}/</url>
+
 
     <properties>
 
