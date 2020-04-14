@@ -25,21 +25,56 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.function.BiFunction;
 
+/**
+ * The interface Language code model.
+ */
 public interface LanguageCodeModel {
+  /**
+   * Gets filter fn.
+   *
+   * @return the filter fn
+   */
   @Nullable
   BiFunction<String, String, Boolean> getFilterFn();
 
+  /**
+   * Sets filter fn.
+   *
+   * @param filterFn the filter fn
+   * @return the filter fn
+   */
   @Nonnull
   LanguageCodeModel setFilterFn(BiFunction<String, String, Boolean> filterFn);
 
+  /**
+   * Copy language code model.
+   *
+   * @return the language code model
+   */
   @Nonnull
   LanguageCodeModel copy();
 
+  /**
+   * Clear language code model.
+   *
+   * @return the language code model
+   */
   @Nonnull
   LanguageCodeModel clear();
 
+  /**
+   * Eval float [ ].
+   *
+   * @param data_X the data x
+   * @return the float [ ]
+   */
   float[] eval(int data_X);
 
+  /**
+   * State tensor.
+   *
+   * @return the tensor
+   */
   @Nullable
   Tensor<?> state();
 }

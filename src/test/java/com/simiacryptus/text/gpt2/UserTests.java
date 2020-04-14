@@ -32,8 +32,14 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
 
+/**
+ * The type User tests.
+ */
 public class UserTests {
 
+  /**
+   * Tensorboard graph.
+   */
   @Test
   public void tensorboardGraph() {
     String now = new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
@@ -49,6 +55,9 @@ public class UserTests {
     }
   }
 
+  /**
+   * Generate unconditional text.
+   */
   @Test
   public void generateUnconditionalText() {
     TextGenerator textGenerator = GPT2Util.get345M().setVerbose(false);
@@ -59,6 +68,9 @@ public class UserTests {
     }
   }
 
+  /**
+   * Generate conditional text.
+   */
   @Test
   public void generateConditionalText() {
     TextGenerator textGenerator = GPT2Util.get345M().setVerbose(false);

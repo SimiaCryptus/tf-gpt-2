@@ -35,11 +35,29 @@ import java.util.function.Consumer;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+/**
+ * The type Graph comparer.
+ */
 class GraphComparer implements Consumer<GraphModel.DeltaRecord> {
+  /**
+   * The Node deletes.
+   */
   public final ArrayList<String> nodeDeletes = new ArrayList<String>();
+  /**
+   * The New nodes.
+   */
   public final ArrayList<String> newNodes = new ArrayList<String>();
+  /**
+   * The Node edits.
+   */
   public final Map<String, ArrayList<String>> nodeEdits = new HashMap<>();
 
+  /**
+   * To string string.
+   *
+   * @param value the value
+   * @return the string
+   */
   public static String toString(@Nonnull AttrValue value) {
     switch (value.getValueCase()) {
       case I:
@@ -87,15 +105,33 @@ class GraphComparer implements Consumer<GraphModel.DeltaRecord> {
     }
   }
 
+  /**
+   * To string string.
+   *
+   * @param dims the dims
+   * @return the string
+   */
   @Nonnull
   public static String toString(@Nonnull long[] dims) {
     return Arrays.stream(dims).mapToObj(size -> Long.toString(size)).reduce((a, b) -> a + ", " + b).orElse("");
   }
 
+  /**
+   * Dims long [ ].
+   *
+   * @param shape the shape
+   * @return the long [ ]
+   */
   public static long[] dims(@Nonnull TensorShapeProto shape) {
     return shape.getDimList().stream().mapToLong(dim -> dim.getSize()).toArray();
   }
 
+  /**
+   * Compare.
+   *
+   * @param left  the left
+   * @param right the right
+   */
   public void compare(@Nonnull GraphModel left, @Nonnull GraphModel right) {
     left.compare(right).values().stream().forEach(this);
     System.out.println("\n" +
@@ -158,6 +194,13 @@ class GraphComparer implements Consumer<GraphModel.DeltaRecord> {
     }
   }
 
+  /**
+   * Compare inputs.
+   *
+   * @param delta     the delta
+   * @param leftData  the left data
+   * @param rightData the right data
+   */
   public void compareInputs(@Nonnull GraphModel.DeltaRecord delta, @Nullable List<String> leftData, @Nonnull List<String> rightData) {
     if (leftData == null || leftData.size() == 0) {
       getBuffer(delta.name).add(rightData.stream().map(input ->

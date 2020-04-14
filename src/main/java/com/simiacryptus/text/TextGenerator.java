@@ -33,38 +33,91 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
+/**
+ * The type Text generator.
+ */
 public class TextGenerator {
+  /**
+   * The constant logger.
+   */
   protected static final Logger logger = LoggerFactory.getLogger(TextGenerator.class);
+  /**
+   * The Vocabulary size.
+   */
   protected final int vocabularySize;
+  /**
+   * The Codec.
+   */
   protected final GPT2Codec codec;
+  /**
+   * The Verbose.
+   */
   protected boolean verbose = false;
+  /**
+   * The Choices to log.
+   */
   protected int choicesToLog = 10;
+  /**
+   * The Codes.
+   */
   @Nonnull
   List<Integer> codes = new ArrayList<>();
+  /**
+   * The Next selections.
+   */
   @Nullable
   float[] nextSelections;
   private LanguageCodeModel model;
 
+  /**
+   * Instantiates a new Text generator.
+   *
+   * @param vocabularySize the vocabulary size
+   * @param model          the model
+   * @param codec          the codec
+   */
   public TextGenerator(int vocabularySize, LanguageCodeModel model, GPT2Codec codec) {
     this.setModel(model);
     this.vocabularySize = vocabularySize;
     this.codec = codec;
   }
 
+  /**
+   * Gets choices to log.
+   *
+   * @return the choices to log
+   */
   public int getChoicesToLog() {
     return choicesToLog;
   }
 
+  /**
+   * Sets choices to log.
+   *
+   * @param choicesToLog the choices to log
+   * @return the choices to log
+   */
   @Nonnull
   public TextGenerator setChoicesToLog(int choicesToLog) {
     this.choicesToLog = choicesToLog;
     return this;
   }
 
+  /**
+   * Gets model.
+   *
+   * @return the model
+   */
   public LanguageCodeModel getModel() {
     return model;
   }
 
+  /**
+   * Sets model.
+   *
+   * @param model the model
+   * @return the model
+   */
   @Nonnull
   public TextGenerator setModel(LanguageCodeModel model) {
     if (this.model == model) return this;
@@ -73,24 +126,52 @@ public class TextGenerator {
     return this;
   }
 
+  /**
+   * Gets text.
+   *
+   * @return the text
+   */
   public String getText() {
     return codec.decode(codes.toArray(new Integer[]{}));
   }
 
+  /**
+   * Gets vocabulary size.
+   *
+   * @return the vocabulary size
+   */
   public int getVocabularySize() {
     return vocabularySize;
   }
 
+  /**
+   * Is verbose boolean.
+   *
+   * @return the boolean
+   */
   public boolean isVerbose() {
     return verbose;
   }
 
+  /**
+   * Sets verbose.
+   *
+   * @param verbose the verbose
+   * @return the verbose
+   */
   @Nonnull
   public TextGenerator setVerbose(boolean verbose) {
     this.verbose = verbose;
     return this;
   }
 
+  /**
+   * Sorted indices int [ ].
+   *
+   * @param chosen the chosen
+   * @param limit  the limit
+   * @return the int [ ]
+   */
   public static int[] sortedIndices(@Nonnull float[] chosen, int limit) {
     return IntStream.range(0, chosen.length)
         .mapToObj(x -> x)
@@ -100,6 +181,11 @@ public class TextGenerator {
         .toArray();
   }
 
+  /**
+   * Copy text generator.
+   *
+   * @return the text generator
+   */
   @Nonnull
   public TextGenerator copy() {
     TextGenerator copy = new TextGenerator(vocabularySize, getModel().copy(), codec);
@@ -110,16 +196,35 @@ public class TextGenerator {
     return copy;
   }
 
+  /**
+   * Generate text string.
+   *
+   * @param terminator the terminator
+   * @return the string
+   */
   @Nonnull
   public String generateText(@Nonnull Predicate<String> terminator) {
     return generateText(terminator, null);
   }
 
+  /**
+   * Generate text string.
+   *
+   * @param numberOfWords the number of words
+   * @return the string
+   */
   @Nonnull
   public String generateText(int numberOfWords) {
     return generateText(numberOfWords, null);
   }
 
+  /**
+   * Generate text string.
+   *
+   * @param terminator the terminator
+   * @param prefix     the prefix
+   * @return the string
+   */
   @Nonnull
   public String generateText(@Nonnull Predicate<String> terminator, String prefix) {
     reset();
@@ -128,6 +233,13 @@ public class TextGenerator {
     return getText();
   }
 
+  /**
+   * Generate text string.
+   *
+   * @param numberOfTokens the number of tokens
+   * @param prefix         the prefix
+   * @return the string
+   */
   @Nonnull
   public String generateText(int numberOfTokens, String prefix) {
     reset();
@@ -136,6 +248,12 @@ public class TextGenerator {
     return getText();
   }
 
+  /**
+   * Generate string.
+   *
+   * @param fn the fn
+   * @return the string
+   */
   public String generate(@Nonnull Predicate<String> fn) {
     init();
     ArrayList<Integer> theseCodes = new ArrayList<>();
@@ -159,6 +277,11 @@ public class TextGenerator {
     return codec.decode(theseCodes.toArray(new Integer[]{}));
   }
 
+  /**
+   * Generate.
+   *
+   * @param numberOfWords the number of words
+   */
   public void generate(int numberOfWords) {
     init();
     try {
@@ -178,12 +301,23 @@ public class TextGenerator {
     }
   }
 
+  /**
+   * Init text generator.
+   *
+   * @return the text generator
+   */
   @Nonnull
   public TextGenerator init() {
     if (nextSelections == null) feed("");
     return this;
   }
 
+  /**
+   * Feed double.
+   *
+   * @param text the text
+   * @return the double
+   */
   public double feed(String text) {
     double entropy = 0.0;
     List<Integer> codeList = new ArrayList<>();
@@ -205,6 +339,11 @@ public class TextGenerator {
     return entropy / Math.log(2);
   }
 
+  /**
+   * Reset text generator.
+   *
+   * @return the text generator
+   */
   @Nonnull
   public TextGenerator reset() {
     codes.clear();
@@ -212,6 +351,12 @@ public class TextGenerator {
     return this;
   }
 
+  /**
+   * Select int.
+   *
+   * @param chosen the chosen
+   * @return the int
+   */
   protected int select(@Nonnull float[] chosen) {
     double originalFate = Math.random() * 1;
     double fate = originalFate;
@@ -226,6 +371,13 @@ public class TextGenerator {
     return topCandidate;
   }
 
+  /**
+   * Log.
+   *
+   * @param chosen the chosen
+   * @param codec  the codec
+   * @param count  the count
+   */
   protected void log(@Nonnull float[] chosen, @Nonnull GPT2Codec codec, int count) {
     Arrays.stream(sortedIndices(chosen, count))
         .forEach(candidate -> logger.info(RefString.format("\t#%d %.4f%% '%s'", candidate, chosen[candidate] * 100, codec.decode(candidate))));

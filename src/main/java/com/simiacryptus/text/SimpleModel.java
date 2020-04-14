@@ -30,11 +30,19 @@ import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
+/**
+ * The type Simple model.
+ */
 public class SimpleModel implements LanguageCodeModel {
 
   @Nonnull
   private final float[] result;
 
+  /**
+   * Instantiates a new Simple model.
+   *
+   * @param result the result
+   */
   public SimpleModel(@Nonnull float... result) {
     this.result = Arrays.copyOf(result, result.length);
   }
@@ -45,6 +53,13 @@ public class SimpleModel implements LanguageCodeModel {
     return null;
   }
 
+  /**
+   * Build simple model.
+   *
+   * @param codec the codec
+   * @param text  the text
+   * @return the simple model
+   */
   @Nonnull
   public static SimpleModel build(@Nonnull GPT2Codec codec, String text) {
     List<Integer> encode = codec.encode(text);
@@ -86,6 +101,11 @@ public class SimpleModel implements LanguageCodeModel {
     return null;
   }
 
+  /**
+   * Sets temperature.
+   *
+   * @return the temperature
+   */
   @Nonnull
   public LanguageCodeModel setTemperature() {
     return this;

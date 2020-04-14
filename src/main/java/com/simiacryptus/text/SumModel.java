@@ -25,12 +25,25 @@ import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
+/**
+ * The type Sum model.
+ */
 public class SumModel extends ModelWrapper {
 
+  /**
+   * Instantiates a new Sum model.
+   *
+   * @param children the children
+   */
   public SumModel(LanguageCodeModel... children) {
     super(children);
   }
 
+  /**
+   * Normalize.
+   *
+   * @param sums the sums
+   */
   public static void normalize(@Nonnull float[] sums) {
     double sum = IntStream.range(0, sums.length).mapToDouble(x -> sums[x]).sum();
     for (int i = 0; i < sums.length; i++) sums[i] /= sum;

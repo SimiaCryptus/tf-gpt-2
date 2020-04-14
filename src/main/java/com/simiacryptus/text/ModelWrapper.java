@@ -25,9 +25,20 @@ import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.function.BiFunction;
 
+/**
+ * The type Model wrapper.
+ */
 public abstract class ModelWrapper implements LanguageCodeModel {
+  /**
+   * The Children.
+   */
   protected final LanguageCodeModel[] children;
 
+  /**
+   * Instantiates a new Model wrapper.
+   *
+   * @param children the children
+   */
   public ModelWrapper(LanguageCodeModel... children) {
     this.children = children;
   }

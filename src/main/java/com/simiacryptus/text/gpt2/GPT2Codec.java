@@ -37,24 +37,53 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * The type Gpt 2 codec.
+ */
 public class GPT2Codec {
+  /**
+   * The constant logger.
+   */
   protected static final Logger logger = LoggerFactory.getLogger(GPT2Codec.class);
 
+  /**
+   * The Encoder.
+   */
   protected final TreeMap<String, Integer> encoder;
+  /**
+   * The Decoder.
+   */
   @Nonnull
   protected final TreeMap<Integer, String> decoder;
   private final int vocabSize;
 
+  /**
+   * Instantiates a new Gpt 2 codec.
+   *
+   * @param encoder   the encoder
+   * @param vocabSize the vocab size
+   */
   public GPT2Codec(TreeMap<String, Integer> encoder, int vocabSize) {
     this.encoder = encoder;
     this.vocabSize = vocabSize;
     this.decoder = buildDecoder(this.encoder);
   }
 
+  /**
+   * Instantiates a new Gpt 2 codec.
+   *
+   * @param file      the file
+   * @param vocabSize the vocab size
+   */
   public GPT2Codec(@Nonnull File file, int vocabSize) {
     this(GPT2Codec.loadEncoder(file), vocabSize);
   }
 
+  /**
+   * Gets character transformer.
+   *
+   * @return the character transformer
+   */
   @Nonnull
   public static Function<String, String> getCharacterTransformer() {
     Map<Character, Character> byteEncoder = byteEncoder();
@@ -67,10 +96,21 @@ public class GPT2Codec {
     };
   }
 
+  /**
+   * Gets vocab size.
+   *
+   * @return the vocab size
+   */
   public int getVocabSize() {
     return vocabSize;
   }
 
+  /**
+   * Build decoder tree map.
+   *
+   * @param encoder the encoder
+   * @return the tree map
+   */
   @Nonnull
   public static TreeMap<Integer, String> buildDecoder(@Nonnull TreeMap<String, Integer> encoder) {
     Stream<Map.Entry<String, Integer>> stream = encoder.entrySet().stream();
@@ -80,6 +120,12 @@ public class GPT2Codec {
     )));
   }
 
+  /**
+   * Load encoder tree map.
+   *
+   * @param file the file
+   * @return the tree map
+   */
   @Nonnull
   public static TreeMap<String, Integer> loadEncoder(@Nonnull File file) {
     try {
@@ -89,12 +135,24 @@ public class GPT2Codec {
     }
   }
 
+  /**
+   * To map tree map.
+   *
+   * @param jsonTxt    the json txt
+   * @param keyEncoder the key encoder
+   * @return the tree map
+   */
   @Nonnull
   public static TreeMap<String, Integer> toMap(String jsonTxt, @Nonnull Function<String, String> keyEncoder) {
     JsonObject json = new GsonBuilder().create().fromJson(jsonTxt, JsonObject.class);
     return new TreeMap<>(json.keySet().stream().collect(Collectors.toMap(keyEncoder, x -> json.get(x).getAsInt(), (a, b) -> a)));
   }
 
+  /**
+   * Byte encoder map.
+   *
+   * @return the map
+   */
   @Nonnull
   public static Map<Character, Character> byteEncoder() {
     try {
@@ -117,10 +175,22 @@ public class GPT2Codec {
     }
   }
 
+  /**
+   * Decode string.
+   *
+   * @param msg the msg
+   * @return the string
+   */
   public String decode(@Nonnull Integer... msg) {
     return Arrays.stream(msg).map(i -> decoder.getOrDefault(i, "<Not Found: " + i + ">")).reduce((a, b) -> a + b).orElseGet(() -> "");
   }
 
+  /**
+   * Encode list.
+   *
+   * @param msg the msg
+   * @return the list
+   */
   @Nonnull
   public List<Integer> encode(@Nullable String msg) {
     ArrayList<Integer> list = new ArrayList<>();
@@ -140,6 +210,12 @@ public class GPT2Codec {
     return list;
   }
 
+  /**
+   * Lookup optional.
+   *
+   * @param searchStr the search str
+   * @return the optional
+   */
   protected Optional<String> lookup(@Nullable String searchStr) {
     if (null == searchStr || searchStr.isEmpty()) return Optional.empty();
     String ceilingKey = encoder.ceilingKey(searchStr);

@@ -29,24 +29,52 @@ import java.util.Arrays;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 
+/**
+ * The type Min entropy wrapper.
+ */
 public class MinEntropyWrapper extends ModelWrapper {
+  /**
+   * The constant logger.
+   */
   protected static final Logger logger = LoggerFactory.getLogger(MinEntropyWrapper.class);
   private final ArrayList<Double> entropyHistory = new ArrayList<>();
   private double value;
 
+  /**
+   * Instantiates a new Min entropy wrapper.
+   *
+   * @param value the value
+   * @param child the child
+   */
   public MinEntropyWrapper(double value, LanguageCodeModel child) {
     super(child);
     this.value = value;
   }
 
+  /**
+   * Gets value.
+   *
+   * @return the value
+   */
   public double getValue() {
     return value;
   }
 
+  /**
+   * Sets value.
+   *
+   * @param value the value
+   */
   public void setValue(double value) {
     this.value = value;
   }
 
+  /**
+   * Entropy double.
+   *
+   * @param floats the floats
+   * @return the double
+   */
   public static double entropy(@Nonnull float[] floats) {
     return IntStream.range(0, floats.length).mapToDouble(i -> {
       float p = floats[i];
@@ -54,6 +82,13 @@ public class MinEntropyWrapper extends ModelWrapper {
     }).sum() / Math.log(2);
   }
 
+  /**
+   * Pow copy float [ ].
+   *
+   * @param floats the floats
+   * @param value  the value
+   * @return the float [ ]
+   */
   @Nonnull
   public static float[] powCopy(@Nonnull float[] floats, double value) {
     float[] copy = Arrays.copyOf(floats, floats.length);
@@ -61,6 +96,12 @@ public class MinEntropyWrapper extends ModelWrapper {
     return copy;
   }
 
+  /**
+   * Pow.
+   *
+   * @param floats the floats
+   * @param value  the value
+   */
   public static void pow(@Nonnull float[] floats, double value) {
     for (int i = 0; i < floats.length; i++) {
       floats[i] = (float) Math.pow(floats[i], value);

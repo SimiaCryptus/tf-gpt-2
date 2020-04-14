@@ -29,6 +29,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.function.Consumer;
 
+/**
+ * The type Gpt 2 edit 345 m.
+ */
 public class GPT2Edit_345M extends GraphModifier {
 
   @Nonnull

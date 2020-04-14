@@ -19,19 +19,38 @@
 
 package com.simiacryptus.text;
 
+/**
+ * The type Temperature wrapper.
+ */
 public class TemperatureWrapper extends ModelWrapper {
 
   private double value;
 
+  /**
+   * Instantiates a new Temperature wrapper.
+   *
+   * @param value the value
+   * @param child the child
+   */
   public TemperatureWrapper(double value, LanguageCodeModel child) {
     super(child);
     this.value = value;
   }
 
+  /**
+   * Gets value.
+   *
+   * @return the value
+   */
   public double getValue() {
     return value;
   }
 
+  /**
+   * Sets value.
+   *
+   * @param value the value
+   */
   public void setValue(double value) {
     this.value = value;
   }

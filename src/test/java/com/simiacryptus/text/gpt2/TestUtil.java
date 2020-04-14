@@ -34,7 +34,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+/**
+ * The type Test util.
+ */
 public class TestUtil {
+  /**
+   * Launch tensorboard.
+   *
+   * @param tensorboardDir the tensorboard dir
+   * @throws IOException        the io exception
+   * @throws URISyntaxException the uri syntax exception
+   */
   public static void launchTensorboard(@Nonnull File tensorboardDir) throws IOException, URISyntaxException {
     TFUtil.launchTensorboard(tensorboardDir.getAbsolutePath(), tensorboard -> {
       try {
@@ -46,6 +56,15 @@ public class TestUtil {
     });
   }
 
+  /**
+   * Write graph file.
+   *
+   * @param graphDef the graph def
+   * @param location the location
+   * @param name     the name
+   * @return the file
+   * @throws IOException the io exception
+   */
   public static File writeGraph(@Nonnull GraphDef graphDef, File location, @Nonnull String name) throws IOException {
     TensorboardEventWriter eventWriter = new TensorboardEventWriter(new File(location, name), graphDef);
     eventWriter.write(graphDef);
@@ -53,6 +72,13 @@ public class TestUtil {
     return location;
   }
 
+  /**
+   * Open.
+   *
+   * @param prefix the prefix
+   * @param model  the model
+   * @throws IOException the io exception
+   */
   public static void open(@Nonnull String prefix, Object model) throws IOException {
     File tempFile = File.createTempFile(prefix, ".json");
     FileOutputStream fileOutputStream = new FileOutputStream(tempFile);

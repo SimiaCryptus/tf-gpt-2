@@ -34,19 +34,35 @@ import java.util.Map;
 
 import static com.simiacryptus.tensorflow.TFUtil.find;
 
+/**
+ * The type Dev tests.
+ */
 public class DevTests {
 
+  /**
+   * Model home file.
+   *
+   * @return the file
+   */
   @Nonnull
   public static File modelHome() {
     return new File(System.getProperty("MODEL_HOME", "H:\\SimiaCryptus\\data-science-tools\\gpt-2\\models"));
   }
 
+  /**
+   * Summary json.
+   *
+   * @throws Exception the exception
+   */
   @Test
   public void summaryJson() throws Exception {
     TestUtil.open("345M.", new GraphModel(GPT2Model.loadModel(new File(modelHome(), "345M" + ".pb"))));
     TestUtil.open("345M_Init.", new GraphModel(GPT2Model.loadModel(new File(modelHome(), "345M_Init" + ".pb"))));
   }
 
+  /**
+   * Compare init.
+   */
   @Test
   public void compare_init() {
     final GraphModel a = new GraphModel(GPT2Model.loadModel(new File(modelHome(), "345M" + ".pb")));
@@ -57,6 +73,11 @@ public class DevTests {
     new GraphComparer().compare(a, b);
   }
 
+  /**
+   * Test init.
+   *
+   * @throws Exception the exception
+   */
   @Test
   public void test_init() throws Exception {
     final GraphModel a = new GraphModel(GPT2Model.loadModel(new File(modelHome(), "345M" + ".pb")));
@@ -71,6 +92,11 @@ public class DevTests {
     });
   }
 
+  /**
+   * Add gradient.
+   *
+   * @throws Exception the exception
+   */
   @Test
   public void addGradient() throws Exception {
     Assertions.assertThrows(TensorFlowException.class, () -> {
@@ -92,6 +118,9 @@ public class DevTests {
     });
   }
 
+  /**
+   * Encode.
+   */
   @Test
   public void encode() {
     GPT2Codec encoder = new GPT2Codec(new File(modelHome(), "345M" + "\\encoder.json"), 50257);

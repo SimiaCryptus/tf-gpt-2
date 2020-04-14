@@ -44,30 +44,91 @@ import java.util.function.BiFunction;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 
+/**
+ * The type Gpt 2 model.
+ */
 public class GPT2Model implements LanguageCodeModel {
+  /**
+   * The constant logger.
+   */
   protected static final Logger logger = LoggerFactory.getLogger(GPT2Model.class);
 
+  /**
+   * The Name.
+   */
   public final String name;
+  /**
+   * The Graph def.
+   */
   protected final byte[] graphDef;
+  /**
+   * The Code history.
+   */
   protected final ArrayList<Integer> code_history = new ArrayList<>();
+  /**
+   * The Graph modifier.
+   */
   protected final GraphModifier graphModifier;
+  /**
+   * The Codec.
+   */
   protected final GPT2Codec codec;
+  /**
+   * The Loaded subnets.
+   */
   public HashSet<String> loadedSubnets;
+  /**
+   * The Graph.
+   */
   public Graph graph;
+  /**
+   * The Session.
+   */
   public Session session;
+  /**
+   * The History size.
+   */
   protected int history_size = 0;
+  /**
+   * The Tensor state.
+   */
   @Nullable
   protected Tensor<Float> tensor_state = null;
   private BiFunction<String, String, Boolean> filterFn = (a, b) -> true;
 
+  /**
+   * Instantiates a new Gpt 2 model.
+   *
+   * @param name          the name
+   * @param graphModifier the graph modifier
+   * @param file          the file
+   * @param codec         the codec
+   */
   public GPT2Model(String name, GraphModifier graphModifier, @Nonnull File file, GPT2Codec codec) {
     this(name, loadModel(file), graphModifier, codec);
   }
 
+  /**
+   * Instantiates a new Gpt 2 model.
+   *
+   * @param name          the name
+   * @param graphDef      the graph def
+   * @param graphModifier the graph modifier
+   * @param codec         the codec
+   */
   public GPT2Model(String name, byte[] graphDef, GraphModifier graphModifier, GPT2Codec codec) {
     this(name, graphDef, graphModifier, codec, new Graph());
   }
 
+  /**
+   * Instantiates a new Gpt 2 model.
+   *
+   * @param name          the name
+   * @param graphDef      the graph def
+   * @param graphModifier the graph modifier
+   * @param codec         the codec
+   * @param graph         the graph
+   */
   public GPT2Model(String name, byte[] graphDef, GraphModifier graphModifier, GPT2Codec codec, @Nonnull Graph graph) {
     this(name, graphDef, graphModifier, codec, graph, new Session(graph, ConfigProto.newBuilder()
         //.setLogDevicePlacement(true)
@@ -90,6 +151,16 @@ public class GPT2Model implements LanguageCodeModel {
         .build().toByteArray()));
   }
 
+  /**
+   * Instantiates a new Gpt 2 model.
+   *
+   * @param name          the name
+   * @param graphDef      the graph def
+   * @param graphModifier the graph modifier
+   * @param codec         the codec
+   * @param graph         the graph
+   * @param session       the session
+   */
   public GPT2Model(String name, byte[] graphDef, GraphModifier graphModifier, GPT2Codec codec, Graph graph, Session session) {
     this.name = name;
     this.graphDef = graphDef;
@@ -105,6 +176,12 @@ public class GPT2Model implements LanguageCodeModel {
     return filterFn;
   }
 
+  /**
+   * Load model byte [ ].
+   *
+   * @param file the file
+   * @return the byte [ ]
+   */
   public static byte[] loadModel(@Nonnull File file) {
     try {
       return FileUtils.readFileToByteArray(file);
@@ -113,6 +190,12 @@ public class GPT2Model implements LanguageCodeModel {
     }
   }
 
+  /**
+   * Copy tensor.
+   *
+   * @param toCopy the to copy
+   * @return the tensor
+   */
   @Nonnull
   public static Tensor<Float> copy(@Nonnull Tensor<Float> toCopy) {
     FloatBuffer floatBuffer = FloatBuffer.allocate(toCopy.numElements());
@@ -137,6 +220,12 @@ public class GPT2Model implements LanguageCodeModel {
     return copy;
   }
 
+  /**
+   * Logits to probabilities float [ ].
+   *
+   * @param logits the logits
+   * @return the float [ ]
+   */
   @Nonnull
   public float[] logitsToProbabilities(@Nonnull float[] logits) {
     String prefix = codec.decode(code_history.stream().toArray(i -> new Integer[i]));
@@ -215,6 +304,13 @@ public class GPT2Model implements LanguageCodeModel {
     }
   }
 
+  /**
+   * Eval float [ ].
+   *
+   * @param prefix the prefix
+   * @param data_X the data x
+   * @return the float [ ]
+   */
   @Nonnull
   public synchronized float[] eval(String prefix, @Nonnull int... data_X) {
     synchronized (session) {

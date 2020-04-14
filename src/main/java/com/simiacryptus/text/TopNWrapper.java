@@ -22,19 +22,38 @@ package com.simiacryptus.text;
 import java.util.Comparator;
 import java.util.stream.IntStream;
 
+/**
+ * The type Top n wrapper.
+ */
 public class TopNWrapper extends ModelWrapper {
 
   private int value;
 
+  /**
+   * Instantiates a new Top n wrapper.
+   *
+   * @param value the value
+   * @param child the child
+   */
   public TopNWrapper(int value, LanguageCodeModel child) {
     super(child);
     this.value = value;
   }
 
+  /**
+   * Gets value.
+   *
+   * @return the value
+   */
   public int getValue() {
     return value;
   }
 
+  /**
+   * Sets value.
+   *
+   * @param value the value
+   */
   public void setValue(int value) {
     this.value = value;
   }

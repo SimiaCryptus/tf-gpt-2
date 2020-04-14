@@ -44,12 +44,29 @@ import java.util.stream.Collectors;
 
 import static org.tensorflow.framework.DataType.DT_INT32;
 
+/**
+ * The type Graph modifier.
+ */
 public abstract class GraphModifier {
+  /**
+   * The constant logger.
+   */
   protected static final Logger logger = LoggerFactory.getLogger(GPT2Codec.class);
 
+  /**
+   * Gets deletes init.
+   *
+   * @return the deletes init
+   */
   @Nonnull
   public abstract HashSet<String> getDeletes_Init();
 
+  /**
+   * Import graph def.
+   *
+   * @param graph    the graph
+   * @param graphdef the graphdef
+   */
   public static void importGraphDef(@Nonnull Graph graph, @Nonnull GraphDef graphdef) {
     final HashSet<Object> opsPresent = new HashSet<>();
     graph.operations().forEachRemaining(op -> {
@@ -162,6 +179,13 @@ public abstract class GraphModifier {
         });
   }
 
+  /**
+   * Edit byte buffer.
+   *
+   * @param srcBuffer the src buffer
+   * @param fn        the fn
+   * @return the byte buffer
+   */
   @Nonnull
   public static ByteBuffer edit(@Nonnull ByteBuffer srcBuffer, @Nonnull Consumer<IntBuffer> fn) {
     final ByteBuffer dstBuffer = copy(srcBuffer);
@@ -170,6 +194,12 @@ public abstract class GraphModifier {
     return dstBuffer;
   }
 
+  /**
+   * Copy byte buffer.
+   *
+   * @param srcBuffer the src buffer
+   * @return the byte buffer
+   */
   @Nonnull
   public static ByteBuffer copy(@Nonnull ByteBuffer srcBuffer) {
     final ByteBuffer byteBuffer = ByteBuffer.allocate(srcBuffer.capacity());
@@ -178,6 +208,13 @@ public abstract class GraphModifier {
     return byteBuffer;
   }
 
+  /**
+   * Tensor 1 tensor proto.
+   *
+   * @param shape the shape
+   * @param vals  the vals
+   * @return the tensor proto
+   */
   @Nonnull
   public static TensorProto tensor1(int[] shape, @Nonnull int... vals) {
     TensorProto.Builder builder = TensorProto.newBuilder().setTensorShape(shape(shape)).setDtype(DT_INT32);
@@ -185,6 +222,13 @@ public abstract class GraphModifier {
     return builder.build();
   }
 
+  /**
+   * Tensor 2 tensor proto.
+   *
+   * @param shape the shape
+   * @param vals  the vals
+   * @return the tensor proto
+   */
   @Nonnull
   public static TensorProto tensor2(int[] shape, @Nonnull int... vals) {
     TensorProto.Builder builder = TensorProto.newBuilder().setTensorShape(shape(shape));
@@ -195,6 +239,12 @@ public abstract class GraphModifier {
     return builder.build();
   }
 
+  /**
+   * Shape tensor shape proto.
+   *
+   * @param dims the dims
+   * @return the tensor shape proto
+   */
   @Nonnull
   public static TensorShapeProto shape(@Nonnull int... dims) {
     TensorShapeProto.Builder builder = TensorShapeProto.newBuilder();
@@ -202,6 +252,15 @@ public abstract class GraphModifier {
     return builder.build();
   }
 
+  /**
+   * Edit graph def.
+   *
+   * @param src             the src
+   * @param prefix          the prefix
+   * @param includeOriginal the include original
+   * @return the graph def
+   * @throws InvalidProtocolBufferException the invalid protocol buffer exception
+   */
   @Nonnull
   public GraphDef edit(@Nonnull GraphDef src, String prefix, boolean includeOriginal) throws InvalidProtocolBufferException {
     final GraphDef srcGraphDef = GraphDef.parseFrom(src.toByteArray());
@@ -232,11 +291,31 @@ public abstract class GraphModifier {
     return prefixRewrite(destGraphDef.build(), editedNodes, prefix, includeOriginal);
   }
 
+  /**
+   * Edit node def . builder.
+   *
+   * @param node the node
+   * @return the node def . builder
+   */
   @Nullable
   public abstract NodeDef.Builder edit(NodeDef.Builder node);
 
+  /**
+   * Add nodes.
+   *
+   * @param add the add
+   */
   protected abstract void addNodes(Consumer<NodeDef> add);
 
+  /**
+   * Prefix rewrite graph def.
+   *
+   * @param graphDef        the graph def
+   * @param editedNodes     the edited nodes
+   * @param prefix          the prefix
+   * @param includeOriginal the include original
+   * @return the graph def
+   */
   @Nonnull
   protected GraphDef prefixRewrite(@Nonnull GraphDef graphDef, @Nonnull HashSet<String> editedNodes, String prefix, boolean includeOriginal) {
     while (true) {
