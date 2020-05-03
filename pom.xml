@@ -104,6 +104,7 @@
     <url>http://code.simiacrypt.us/release/${project.version}/tf-gpt-2</url>
     <distributionManagement>
         <site>
+            <id>simiacryptus</id>
             <url>s3://code.simiacrypt.us/release/${project.version}/tf-gpt-2</url>
         </site>
     </distributionManagement>
