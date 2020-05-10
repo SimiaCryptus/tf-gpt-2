@@ -37,23 +37,23 @@ import java.util.UUID;
  */
 public class UserTests {
 
-  /**
-   * Tensorboard graph.
-   */
-  @Test
-  public void tensorboardGraph() {
-    String now = new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
-    try {
-      String id = UUID.randomUUID().toString();
-      File location = new File("target/" + now + "/tensorboard/" + id);
-      File graphFile = GPT2Util.getGraphFile_345M();
-      TestUtil.launchTensorboard(TestUtil.writeGraph(GraphDef.parseFrom(GPT2Model.loadModel(graphFile)), location, id));
-    } catch (IOException e) {
-      throw Util.throwException(e);
-    } catch (URISyntaxException e) {
-      throw Util.throwException(e);
-    }
-  }
+//  /**
+//   * Tensorboard graph.
+//   */
+//  @Test
+//  public void tensorboardGraph() {
+//    String now = new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
+//    try {
+//      String id = UUID.randomUUID().toString();
+//      File location = new File("target/" + now + "/tensorboard/" + id);
+//      File graphFile = GPT2Util.getGraphFile_345M();
+//      TestUtil.launchTensorboard(TestUtil.writeGraph(GraphDef.parseFrom(GPT2Model.loadModel(graphFile)), location, id));
+//    } catch (IOException e) {
+//      throw Util.throwException(e);
+//    } catch (URISyntaxException e) {
+//      throw Util.throwException(e);
+//    }
+//  }
 
   /**
    * Generate unconditional text.
@@ -61,10 +61,10 @@ public class UserTests {
   @Test
   public void generateUnconditionalText() {
     TextGenerator textGenerator = GPT2Util.get345M().setVerbose(false);
-    for (double t = 1.0; t < 100; t *= 1.01) {
+    for (double t = 1.0; t < 3; t *= 1.1) {
       textGenerator.getModel();
       System.out.println("Temperature=" + t);
-      System.out.println(textGenerator.generateText(50));
+      System.out.println(textGenerator.generateText(150));
     }
   }
 
@@ -74,7 +74,7 @@ public class UserTests {
   @Test
   public void generateConditionalText() {
     TextGenerator textGenerator = GPT2Util.get345M().setVerbose(false);
-    for (double t = 1.0; t < 100; t *= 1.01) {
+    for (double t = 1.0; t < 3; t *= 1.1) {
       textGenerator.getModel();
       System.out.println("Temperature=" + t);
       for (String seed : Arrays.asList(
@@ -86,7 +86,7 @@ public class UserTests {
           "I love",
           "You people are"
       )) {
-        System.out.println(textGenerator.generateText(50, seed));
+        System.out.println(textGenerator.generateText(150, seed));
       }
     }
   }
