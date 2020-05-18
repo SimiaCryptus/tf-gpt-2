@@ -20,17 +20,9 @@
 package com.simiacryptus.text.gpt2;
 
 import com.simiacryptus.text.TextGenerator;
-import com.simiacryptus.util.Util;
 import org.junit.jupiter.api.Test;
-import org.tensorflow.framework.GraphDef;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.UUID;
 
 /**
  * The type User tests.
