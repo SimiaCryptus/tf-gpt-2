@@ -1,11 +1,14 @@
+
+!/.mvn/wrapper/maven-wrapper.jar
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
+*.hprof
+*.pb
+*.zip
+.idea/
+.mvn/timing.properties
 buildNumber.properties
 dependency-reduced-pom.xml
 encoder_345M.json
-.idea/
-.mvn/timing.properties
-!/.mvn/wrapper/maven-wrapper.jar
-*.pb
 pom.xml.next
 pom.xml.releaseBackup
 pom.xml.tag
@@ -13,6 +16,3 @@ pom.xml.versionsBackup
 release.properties
 target/
 tf-gpt-2.iml
-*.zip
-*.hprof
-
