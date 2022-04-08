@@ -2,6 +2,7 @@
 !/.mvn/wrapper/maven-wrapper.jar
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
 *.hprof
+*.iml
 *.pb
 *.pem
 *.zip
